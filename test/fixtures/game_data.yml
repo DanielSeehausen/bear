@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  underlying_asset_type: MyString
+  name: MyString
+  time_value: 
+  price_over_time: 
+
+two:
+  underlying_asset_type: MyString
+  name: MyString
+  time_value: 
+  price_over_time: 
