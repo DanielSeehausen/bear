@@ -1,0 +1,22 @@
+{
+  "name": "bear_game_react_app",
+  "version": "1.0.0",
+  "description": "Gamification of equities trading via react app which makes calls to rails api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielseehausen/bear.git"
+  },
+  "keywords": [
+    "stockmarket", "game", "equity", "trading", "bull", "bear"
+  ],
+  "author": "Nicholas Anaya, Lauren Grapstein, Daniel Seehausen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielseehausen/bear/issues"
+  },
+  "homepage": "https://github.com/danielseehausen/bear#readme"
+}
