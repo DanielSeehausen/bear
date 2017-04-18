@@ -22,8 +22,3 @@ class SessionsController < ApplicationController
   end
 
 end
-
-#
-# authenticate_or_request_with_http_token('Premium') do |token, options|
-#   User.find_by(auth_token: token)
-# end
