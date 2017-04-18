@@ -1,9 +1,18 @@
 class GameRoundsController < ApplicationController
   before_action :authenticate
 
+  def new
+    @gameround = GameRound.new
+    render json: @gameround
+  end
+
   def index
-    gamerounds = GameRounds.all
-    render json: gamerounds, status: 200
+    @gamerounds = GameRound.all
+    render json: @gamerounds
+  end
+
+  def show
+    @gameround = GameRound.find(params[:id])
   end
 
   protected
