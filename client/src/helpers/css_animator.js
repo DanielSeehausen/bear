@@ -1,21 +1,27 @@
-function cssFadeIn(element, duration) {
-  element.animate([
-    {transition: `visibility 0s ${duration/100}s, opacity ${duration/100}s linear`}
-  ], {
-    duration: duration, // ms
-    easing: "linear",
-    fill: "forwards"
-  })
-}
-
 export const animations = {
 
   fadeOut: (element, duration) => {
-    element.isArray ? element.each(el => cssFadeOut(el, duration)) : cssFadeOut(el, duration)
+    if (Array.isArray(element)) {
+      element.each(el => {
+        el.style.pointerEvents = "none"
+        el.style.opacity = 0
+      })
+    } else {
+      element.style.pointerEvents = "none"
+      element.style.opacity = 0
+    }
   },
 
   fadeIn: (element, duration) => {
-    element.isArray ? element.each(el => cssFadeIn(el, duration)) : cssFadeIn(el, duration)
+    if (Array.isArray(element)) {
+      element.each(el => {
+        el.style.pointerEvents = "auto"
+        el.style.opacity = 1
+      })
+    } else {
+      element.style.pointerEvents = "auto"
+      element.style.opacity = 1
+    }
   }
 
 }

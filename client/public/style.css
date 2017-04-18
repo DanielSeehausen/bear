@@ -1,6 +1,7 @@
 body {
   background-color: #eee;
   margin: 0 auto;
+  cursor: default;
 }
 
 ul {
@@ -21,7 +22,26 @@ ul {
   justify-content: center;
 }
 
-.img-button {}
+.fadeable {
+  transition: opacity .25s linear;
+}
+
+.splash {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 30pt;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#exit-img-button {
+  position: absolute;
+  padding: 30px 30px 5px 5px;
+  top: 0;
+  right: 0;
+}
+
 .img-button:hover {
   animation: colorShiftImg 3s ease-in-out infinite;
 }

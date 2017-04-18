@@ -19,12 +19,13 @@ export default class App extends Component {
     this.toggleHowToSplash = this.toggleHowToSplash.bind(this)
     this.toggleAboutSplash = this.toggleAboutSplash.bind(this)
     this.toggleMainMenu = this.toggleMainMenu.bind(this)
+    this.toggleView = this.toggleView.bind(this)
   }
 
-  onComponentDidMount() {
-    this.domMainMenu = this.getElementById("main-menu")
-    this.domHowToSplash = this.getElementById("how-to-splash")
-    this.domAboutSplash = this.getElementById("about-splash")
+  componentDidMount() {
+    this.domMainMenu = document.getElementById("main-menu")
+    this.domHowToSplash = document.getElementById("how-to-splash")
+    this.domAboutSplash = document.getElementById("about-splash")
   }
 
   startGame() {
@@ -33,33 +34,61 @@ export default class App extends Component {
     })
   }
 
-  //TODO combine the three toggling functions while preserving state changing itegrity
-  toggleMainMenu() {
-    if (gameActive) return
-    this.state.mainMenuActive ? animations.fadeOut(this.domMainMenu, 300) : animations.fadeIn(this.domMainMenu, 300)
+  toggleView(view) {
+    // the view we are entering into
+    // we have a pretty finite state machine setup going re: splash views, so switch should be appropriate
+    let newState = Object.assign({}, this.state)
+    switch (view) {
+      case "mainMenuActive":
+        animations.fadeOut(this.domHowToSplash)
+        animations.fadeOut(this.domAboutSplash)
+        // setTimeout(() => animations.fadeIn(this.domMainMenu), 250)
+        animations.fadeIn(this.domMainMenu)
+        newState.aboutSplashActive = newState.howToSplashActive = false
+        break
+      case "aboutSplashActive":
+        animations.fadeOut(this.domMainMenu)
+        setTimeout(() => animations.fadeIn(this.domAboutSplash), 250)
+        newState.mainMenuActive = newState.howToSplashActive = false
+        break
+      case "howToSplashActive":
+        animations.fadeOut(this.domMainMenu)
+        setTimeout(() => animations.fadeIn(this.domHowToSplash), 250)
+        newState.mainMenuActive = newState.aboutSplashActive = false
+        break
+      default:
+        animations.fadeIn(this.domMainMenu)
+        animations.fadeOut(this.domMainMenu)
+        animations.fadeOut(this.domAboutSplash)
+        newState.aboutSplashActive = newState.howToSplashActive = false
+        break
+
+    }
+    newState[view] = true
     this.setState({
-      mainMenuActive: !this.state.mainMenuActive
+      newState
     })
+    console.log("STATE: ", this.state)
+  }
+
+  //TODO can clean these up with a bind argument as well?
+  toggleMainMenu() {
+    console.log("toggleHowToSplash")
+    this.toggleView("mainMenuActive")
   }
 
   toggleHowToSplash() {
-    debugger
-
-    if (gameActive) return
-    this.state.howToSplashActive ? animations.fadeOut(this.domHowToSplash, 300) : animations.fadeIn(this.domHowToSplash, 300)
-    this.setState({
-      howToSplashActive: !this.state.howToSplashActive
-    })
+    console.log("toggleHowToSplash")
+    this.state.howToSplashActive ? this.toggleView("mainMenuActive") : this.toggleView("howToSplashActive")
   }
 
   toggleAboutSplash() {
-    if (gameActive) return
-    this.state.aboutSplashActive ? animations.fadeOut(this.domAboutSplash, 300) : animations.fadeIn(this.domAboutSplash, 300)
-    this.setState({
-      aboutSplashActive: !this.state.aboutSplashActive
-    })
+    console.log("toggleAboutSplash")
+
+    this.state.aboutSplashActive ? this.toggleView("mainMenuActive") : this.toggleView("aboutSplashActive")
   }
 
+  //TODO these splashes can be combined into one type of component
   render() {
     const togglers = {startGame:   this.startGame,
                       howToSplash: this.toggleHowToSplash,
@@ -67,8 +96,8 @@ export default class App extends Component {
     return (
       <div className="app">
         <MainMenu    id="main-menu" togglers={togglers} />
-        <HowToSplash id="how-to-splash" />
-        <AboutSplash id="about-splash" />
+        <HowToSplash id="how-to-splash" toggler={this.toggleMainMenu} />
+        <AboutSplash id="about-splash" toggler={this.toggleMainMenu} />
       </div>
     )
   }

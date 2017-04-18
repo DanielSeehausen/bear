@@ -10,8 +10,6 @@ export default class MainMenu extends Component {
       howToSplashActive: false,
       aboutSplashActive: false,
     }
-    //TODO: DELETE ME
-    console.log("THIS SHOULD HAVsdsdE THE TOGGLE FUNCTIONS IN PROPS: ", this.props)
   }
 
   onComponentDidMount() {
@@ -26,13 +24,12 @@ export default class MainMenu extends Component {
   }
 
   render() {
-    debugger
     return (
-      <div className="join-lobby">
+      <div id="main-menu" className="fadeable">
         <ul>
-          <li><ImgButton name="play"   imgSrc="static_assets/images/bear.png" onClick={this.props.togglers.startGame()}/></li>
-          <li><ImgButton name="how-to" imgSrc="static_assets/images/bear.png" onClick={this.props.togglers.howToSplash()}/></li>
-          <li><ImgButton name="about"  imgSrc="static_assets/images/bear.png" onClick={this.props.togglers.aboutSplash()}/></li>
+          <li><ImgButton name="play"   imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.startGame}/></li>
+          <li><ImgButton name="how-to" imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.howToSplash}/></li>
+          <li><ImgButton name="about"  imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.aboutSplash}/></li>
         </ul>
       </div>
     )
