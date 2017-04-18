@@ -3,11 +3,11 @@ class GameRoundsController < ApplicationController
 
   def index
     gamerounds = GameRounds.all
-    render json: episodes, status: 200
+    render json: gamerounds, status: 200
   end
 
   protected
-  
+
   def authenticate
     authenticate_token || render_unauthorized
   end
