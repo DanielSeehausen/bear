@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate
-  
+
   def create
     @user = User.find(username: params[:user][:username])
     if @user.authenticate(username: params[:username], password: params[:password])
@@ -10,6 +10,11 @@ class SessionsController < ApplicationController
     else
       render json: {error: "bad username or password"}, status: 401
     end
+  end
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to '/'
   end
 
 end
