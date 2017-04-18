@@ -11,8 +11,24 @@ class GameRoundsController < ApplicationController
     render json: @gamerounds
   end
 
+  def create
+    @gameround = GameRound.new
+
+    if @gameround.save
+      redirect_to game_round_path
+    else
+      render :new
+    end
+  end
+
   def show
     @gameround = GameRound.find(params[:id])
+  end
+
+  private
+
+  def gameround_params
+    params.require(:game_round).permit(:underlying_asset_type, :time_values, :price_values, :name)
   end
 
   protected
