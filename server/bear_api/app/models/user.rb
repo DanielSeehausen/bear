@@ -1,6 +1,8 @@
 require 'securerandom'
 class User < ApplicationRecord
   before_create :set_auth_token
+  has_many :user_games
+  has_many :game_rounds, through: :user_games
 
   def self.authenticate(username, password)
     user = User.find_by(username: username)
