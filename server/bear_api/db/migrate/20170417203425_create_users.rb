@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :username
       t.string :password
       t.integer :games_played
-      t.double :cumulative_performance
+      t.float :cumulative_performance
 
       t.timestamps
     end
