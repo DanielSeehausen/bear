@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate
 
+  def new
+    @user = User.new
+  end
+
   def create
     @user = User.find(username: params[:user][:username])
     if @user.authenticate(username: params[:username], password: params[:password])
@@ -18,8 +22,3 @@ class SessionsController < ApplicationController
   end
 
 end
-
-#
-# authenticate_or_request_with_http_token('Premium') do |token, options|
-#   User.find_by(auth_token: token)
-# end
