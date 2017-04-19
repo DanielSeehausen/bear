@@ -43,7 +43,7 @@ export default class App extends Component {
         animations.fadeOut(this.domHowToSplash)
         animations.fadeOut(this.domAboutSplash)
         // setTimeout(() => animations.fadeIn(this.domMainMenu), 250)
-        animations.fadeIn(this.domMainMenu)
+        setTimeout(() => animations.fadeIn(this.domMainMenu), 250)
         newState.aboutSplashActive = newState.howToSplashActive = false
         break
       case "aboutSplashActive":
@@ -73,18 +73,14 @@ export default class App extends Component {
 
   //TODO can clean these up with a bind argument as well?
   toggleMainMenu() {
-    console.log("toggleHowToSplash")
     this.toggleView("mainMenuActive")
   }
 
   toggleHowToSplash() {
-    console.log("toggleHowToSplash")
     this.state.howToSplashActive ? this.toggleView("mainMenuActive") : this.toggleView("howToSplashActive")
   }
 
   toggleAboutSplash() {
-    console.log("toggleAboutSplash")
-
     this.state.aboutSplashActive ? this.toggleView("mainMenuActive") : this.toggleView("aboutSplashActive")
   }
 

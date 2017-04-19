@@ -21,3 +21,6 @@ logs
 npm-debug.log*
 node_modules
 .npm
+
+.DS_store
+not_plagiarizing
