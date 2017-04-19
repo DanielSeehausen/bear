@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 import ImgButton from '../common_components/imgButton.component.jsx'

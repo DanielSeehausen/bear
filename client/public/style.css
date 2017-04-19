@@ -31,6 +31,14 @@ ul {
   transition: opacity .75s ease-in-out;
 }
 
+#main-menu ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
 .splash-wrapper {
   position: absolute;
   display: flex;
@@ -49,7 +57,7 @@ ul {
   margin: 10px 10px;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   padding: 5px;
 
 }
@@ -88,6 +96,11 @@ ul {
   padding: 15px;
 }
 
+.partial-fade {
+  position: absolute;
+  opacity: .75;
+}
+
 .passive-img {
   position: absolute;
   z-index: -1;
@@ -95,6 +108,10 @@ ul {
 
 .active-img:hover {
   opacity: 1;
+}
+
+.bundle-background-img {
+  opacity: 0;
 }
 
 .active-img {
