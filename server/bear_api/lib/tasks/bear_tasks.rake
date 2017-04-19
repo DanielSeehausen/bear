@@ -1,4 +1,3 @@
-
 def unpack_stock_values(results, limit, symbol)
   time_values = []
   price_values = []
