@@ -1,51 +1,35 @@
 class GameRoundsController < ApplicationController
-  before_action :authenticate
 
-  def new
-    @gameround = GameRound.new
-    render json: @gameround
-  end
+  @@game_round_config = {starting_capital: 100000}
 
-  def index
-    @gamerounds = GameRound.all
-    render json: @gamerounds
-  end
+  def serve_game_data
+    @game_round_data = {msg_type: 'game_round', msg_data: nil}
+    @game_round = GameRound.find_by(ticker: params[:ticker]) || GameRound.find_by(ticker: "^GSPC")
 
-  def create
-    @gameround = GameRound.new
-
-    if @gameround.save
-      redirect_to game_round_path
+    if !@game_round && params
+      @game_round_data[:msg_data] = {status: 'Not Found'}
     else
-      render :new
+      @game_round_data[:msg_data] = {status: 'Found', underlying_asset_type: @game_round.underlying_asset_type, time_values: @game_round.time_values, price_values: @game_round.price_values, ticker: @game_round.ticker, game_round_config: @@game_round_config}
     end
+
+    render json: @game_round_data.to_json
   end
 
-  def show
-    @gameround = GameRound.find(params[:id])
-  end
-
-  private
-
-  def gameround_params
-    params.require(:game_round).permit(:underlying_asset_type, :time_values, :price_values, :name)
-  end
-
-  protected
-
-  def authenticate
-    authenticate_token || render_unauthorized
-  end
-
-  def authenticate_token
-    authenticate_with_http_token do |token, options|
-      User.find_by(auth_token: token)
-    end
-  end
-
-  def render_unauthorized
-    self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-    render json: 'Bad credentials', status: 401
-  end
+  # protected
+  #
+  # def authenticate
+  #   authenticate_token || render_unauthorized
+  # end
+  #
+  # def authenticate_token
+  #   authenticate_with_http_token do |token, options|
+  #     User.find_by(auth_token: token)
+  #   end
+  # end
+  #
+  # def render_unauthorized
+  #   self.headers['WWW-Authenticate'] = 'Token realm="Application"'
+  #   render json: 'Bad credentials', status: 401
+  # end
 
 end

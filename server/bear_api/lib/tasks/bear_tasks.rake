@@ -1,5 +1,5 @@
 
-def unpack_stock_values(results, limit, symbol)
+def unpack_stock_values(results, limit, ticker)
   time_values = []
   price_values = []
 
@@ -19,7 +19,7 @@ def unpack_stock_values(results, limit, symbol)
   end
 
   if time_values.length != limit
-    puts "Bad data for: #{symbol}"
+    puts "Bad data for: #{ticker}"
     puts time_values
     puts price_values
     puts time_values.length
@@ -33,18 +33,18 @@ namespace :bear_tasks do
   desc "Print out sample api call to yahoo finance"
   task :print_api_test_call => :environment do
 
-    symbol_to_grab = ["^GSPC"]
+    ticker_to_grab = ["^GSPC"]
     limit = 120
     start_date = Time::now - (24*60*60*365)
     end_date = start_date + (24*60*60*(limit+50))
     puts start_date
     puts end_date
 
-    symbol_to_grab.each do |symbol|
+    ticker_to_grab.each do |ticker|
       yahoo_client = YahooFinance::Client.new
-      results = yahoo_client.historical_quotes(symbol, { start_date: start_date, end_date: end_date })
+      results = yahoo_client.historical_quotes(ticker, { start_date: start_date, end_date: end_date })
 
-      x = unpack_stock_values(results, limit, symbol)
+      x = unpack_stock_values(results, limit, ticker)
       next if x == false
 
       price_values = x[0]
@@ -52,8 +52,8 @@ namespace :bear_tasks do
 
       current_game_round = GameRound.create({
         time_values: time_values,
-        price_over_time: price_values,
-        name: symbol
+        price_values: price_values,
+        ticker: ticker
       })
 
       puts "Succesfully loaded: ", current_game_round
