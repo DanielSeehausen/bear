@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20170417203839) do
     t.string   "underlying_asset_type"
     t.datetime "time_values",           array: true
     t.float    "price_values",          array: true
-    t.string   "name"
+    t.string   "ticker"
   end
 
   create_table "user_games", force: :cascade do |t|
@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 20170417203839) do
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
-    t.string   "password"
     t.integer  "games_played"
     t.float    "cumulative_performance"
     t.datetime "created_at",             null: false

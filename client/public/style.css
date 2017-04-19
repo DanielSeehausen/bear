@@ -1,6 +1,7 @@
 body {
   background-color: #eee;
   margin: 0 auto;
+  cursor: default;
 }
 
 ul {
@@ -21,10 +22,102 @@ ul {
   justify-content: center;
 }
 
-.img-button {}
+.fadeable {
+  transition: opacity .25s linear;
+}
+
+/* TODO: while this works, it is also overriding the 250ms splash screen fade out plan. Make separate keyframe animation for on hover for the bio-img elements.*/
+.slow-fadeable {
+  transition: opacity .75s ease-in-out;
+}
+
+#main-menu ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.splash-wrapper {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 30pt;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-main-window {
+
+}
+
+#exit-img-button {
+  margin: 10px 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+
+}
+
+.img-button {
+  padding: 30px;
+  margin: 30px 0 30px 0;
+}
+
 .img-button:hover {
   animation: colorShiftImg 3s ease-in-out infinite;
 }
+
+#about-splash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bio-pics-wrapper {
+  margin: 0 auto;
+  position: absolute;
+  width: 100%;
+  bottom: 10%;
+}
+
+.bio-pics-wrapper ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
+}
+
+.bio-pic {
+  padding: 15px;
+}
+
+.partial-fade {
+  position: absolute;
+  opacity: .75;
+}
+
+.passive-img {
+  position: absolute;
+  z-index: -1;
+}
+
+.active-img:hover {
+  opacity: 1;
+}
+
+.bundle-background-img {
+  opacity: 0;
+}
+
+.active-img {
+  opacity: 0;
+}
+
 #play-button {}
 #how-to-button {}
 #about-button {}

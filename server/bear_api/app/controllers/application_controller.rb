@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
-  before_action :authenticate
+  # before_action :authenticate
 
   def authenticate
     render json: {error: "Unauthorized"}, status: 401 unless logged_in?
@@ -12,6 +12,7 @@ class ApplicationController < ActionController::API
       User.from_token(token)
       rescue JWT::DecodeError
         false
+      end
     end
   end
 

@@ -1,13 +1,8 @@
 Rails.application.routes.draw do
   root 'application#home'
 
-  get '/login', to: "sessions#new"
-  post '/login', to: "sessions#create"
-  delete '/logout', to: "sessions#destroy"
-
-  resources :user_games
-  resources :game_rounds, only: [:new, :index, :create, :show]
-  resources :users, only: [:new, :index, :show, :create]
-  resources :sessions, only: [:new, :create, :destroy]
+  get '/users/:id/:username', to: "users#show"
+  get '/game_rounds/:ticker', to: "game_rounds#serve_game_data"
+  get '/users/record_game/:score/:user_id', to: "users#record_game"
 
 end

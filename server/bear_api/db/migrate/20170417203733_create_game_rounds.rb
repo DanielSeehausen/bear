@@ -4,7 +4,7 @@ class CreateGameRounds < ActiveRecord::Migration[5.0]
       t.string :underlying_asset_type
       t.timestamp :time_values, array: true
       t.float :price_values, array: true
-      t.string :name
+      t.string :ticker
     end
   end
 end
