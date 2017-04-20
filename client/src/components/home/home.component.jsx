@@ -6,7 +6,7 @@ import AboutSplash from './splashes/aboutSplash.component.jsx'
 import { animations } from '../helpers/css_animator.js'
 
 
-export default class App extends Component {
+export default class Home extends Component {
   constructor() {
     super()
     this.state = {
@@ -90,7 +90,7 @@ export default class App extends Component {
                       howToSplash: this.toggleHowToSplash,
                       aboutSplash: this.toggleAboutSplash}
     return (
-      <div className="app">
+      <div className="home">
         <MainMenu    id="main-menu" togglers={togglers} />
         <HowToSplash id="how-to-splash" toggler={this.toggleMainMenu} />
         <AboutSplash id="about-splash" toggler={this.toggleMainMenu} />

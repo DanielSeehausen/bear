@@ -2,6 +2,7 @@ body {
   background-color: #eee;
   margin: 0 auto;
   cursor: default;
+
 }
 
 ul {
@@ -12,9 +13,11 @@ ul {
 #container {
   height: 100%;
   width: 100%;
+  min-width: 900px;
+  min-height: 650px;
 }
 
-.app {
+.home {
   height: 100%;
   width: 100%;
   display: flex;
@@ -55,7 +58,7 @@ ul {
 
 #exit-img-button {
   margin: 10px 10px;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 5px;
@@ -72,16 +75,42 @@ ul {
 }
 
 #about-splash {
+  /*display: flex;
+  align-items: center;
+  justify-content: center;*/
+}
+
+.bio-wrapper {
+  font-family: Calibri, sans-serif;
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.bio-text {
+  text-align: center;
+  width: 80%;
+  max-width: 600px;
+  top: 50px;
+}
+
+.icons-list {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.icons-list li {
+  padding: 0 10px;
+  margin: 0 10px;
 }
 
 .bio-pics-wrapper {
   margin: 0 auto;
   position: absolute;
   width: 100%;
-  bottom: 10%;
+  bottom: 0;
 }
 
 .bio-pics-wrapper ul {
@@ -118,7 +147,7 @@ ul {
   opacity: 0;
 }
 
-#play-button {}
+#game-button {}
 #how-to-button {}
 #about-button {}
 

@@ -2,7 +2,7 @@
 
 ## Uses React:
 ### Component Structure:
-  - App
+  - Home
     - Main Menu
     - How-to Splash
     - About Splash
