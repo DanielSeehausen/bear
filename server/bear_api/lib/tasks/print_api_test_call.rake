@@ -29,7 +29,7 @@ def unpack_stock_values(results, limit, ticker)
   [price_values, time_values]
 end
 
-namespace :bear_tasks do
+namespace :yahoo_api do
   desc "Print out sample api call to yahoo finance"
   task :print_api_test_call => :environment do
 

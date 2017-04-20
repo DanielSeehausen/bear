@@ -9,7 +9,13 @@ class GameRoundsController < ApplicationController
     if !@game_round && params
       @game_round_data[:msg_data] = {status: 'Not Found'}
     else
-      @game_round_data[:msg_data] = {status: 'Found', underlying_asset_type: @game_round.underlying_asset_type, time_values: @game_round.time_values, price_values: @game_round.price_values, ticker: @game_round.ticker, game_round_config: @@game_round_config}
+      @game_round_data[:msg_data] = {status: 'Found',
+                                     asset_type: @game_round.asset_type,
+                                     time_values: @game_round.time_values,
+                                     price_values: @game_round.price_values,
+                                     ticker: @game_round.ticker,
+                                     company_name: @game_round.company_name,
+                                     game_round_config: @@game_round_config}
     end
 
     render json: @game_round_data.to_json
