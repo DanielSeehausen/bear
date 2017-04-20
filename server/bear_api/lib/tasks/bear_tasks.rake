@@ -1,5 +1,6 @@
+def unpack_stock_values(results, limit, symbol)
 
-def unpack_stock_values(results, limit, ticker)
+
   time_values = []
   price_values = []
 
