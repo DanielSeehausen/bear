@@ -10,8 +10,9 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <div>
       <Route exact path='/' component={Home} />
-      <Route exact path='/home' component={Home} />
+      <Route path='/home' component={Home} />
       <Route path='/game' component={Game} />
+      <Route path='*' component={Home} />
     </div>
   </Router>,
   document.getElementById('container')
