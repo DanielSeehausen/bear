@@ -68,7 +68,6 @@ export default class Home extends Component {
     this.setState({
       newState
     })
-    console.log("STATE: ", this.state)
   }
 
   //TODO can clean these up with a bind argument as well?
