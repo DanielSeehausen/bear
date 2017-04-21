@@ -10,24 +10,43 @@ export default class AboutSplash extends Component {
       activeProfile: false,
       displayText: "",
       displayTitle: "",
+      github: "",
+      linkedin: ""
     }
     this.mouseOverHandler = this.mouseOverHandler.bind(this)
   }
 
   mouseOverHandler(event) {
     console.log("sdsd")
-    if (event.currentTarget.id === "daniel-pic") {
+    switch (event.currentTarget.id) {
+      case "daniel-pic":
       this.setState({
         activeProfile: true,
         displayText: "Daniel's profile text",
         displayTitle: "Daniel Seehausen"
       })
-    } else if (event.currentTarget.id === "tuco-pic") {
+      break
+    case "tuco-pic":
       this.setState({
         activeProfile: true,
         displayText: "TUCO. JUST TUCO.",
         displayTitle: "TUCO TITLE (look away)"
       })
+      break
+    case "nick-pic":
+      this.setState({
+        activeProfile: true,
+        displayText: "NICK TEXT",
+        displayTitle: "NICK TITLE (bask in the glory)"
+      })
+      break
+    case "lauren-pic":
+      this.setState({
+        activeProfile: true,
+        displayText: "LAUREN TEXT.",
+        displayTitle: "LAUREN TITLE "
+      })
+      break
     }
   }
 
@@ -35,7 +54,8 @@ export default class AboutSplash extends Component {
 
     return (
       <div id="about-splash" className="slow-fadeable splash-wrapper">
-        <Bio name={this.state.displayTitle} bioText={this.state.displayText} github="" linkedin="" />
+        <ImgButton className="exit-button" name="exit" imgSrc="static_assets/images/exit-icon-small.png" toggler={this.props.toggler}/>
+        <Bio name={this.state.displayTitle} bioText={this.state.displayText} github="aaa" linkedin="bbb" />
         <div className="bio-pics-wrapper">
           <ul>
             <li id="daniel-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">

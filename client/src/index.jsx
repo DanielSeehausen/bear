@@ -15,6 +15,7 @@ import Game from './components/game/game.component.jsx'
   dispatch.reconcileStockData("DEFAULT")
 })()
 
+
 ReactDOM.render(
   <Router history={browserHistory}>
     <div>
