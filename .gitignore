@@ -6,6 +6,8 @@
 
 # Ignore bundler config.
 /.bundle
+#TODO final product should have a static bundle.js
+bundle.js
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -25,3 +27,4 @@ node_modules
 .DS_store
 not_plagiarizing
 gimp_assets
+
