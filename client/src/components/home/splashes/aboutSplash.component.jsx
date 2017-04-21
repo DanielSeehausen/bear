@@ -8,26 +8,50 @@ export default class AboutSplash extends Component {
     super()
     this.state = {
       activeProfile: false,
-      displayText: "",
-      displayTitle: "",
+      displayText: "fdsfds",
+      displayTitle: "dddd",
+      github: false,
+      linkedin: false,
     }
     this.mouseOverHandler = this.mouseOverHandler.bind(this)
   }
 
   mouseOverHandler(event) {
-    console.log("sdsd")
-    if (event.currentTarget.id === "daniel-pic") {
-      this.setState({
-        activeProfile: true,
-        displayText: "Daniel's profile text",
-        displayTitle: "Daniel Seehausen"
-      })
-    } else if (event.currentTarget.id === "tuco-pic") {
-      this.setState({
-        activeProfile: true,
-        displayText: "TUCO. JUST TUCO.",
-        displayTitle: "TUCO TITLE (look away)"
-      })
+    switch (event.currentTarget.id) {
+      case 'daniel-pic':
+        this.setState({
+          activeProfile: true,
+          displayText: "Daniel's profile text",
+          displayTitle: "Daniel Seehausen",
+          github: "https://www.youtube.com/watch?v=QMjlcoeRgGw",
+          linkedin: "http://www.imdb.com/character/ch0236592/"
+        })
+        break
+      case 'tuco-pic':
+        this.setState({
+          activeProfile: true,
+          displayText: "TUCO. JUST TUCO.",
+          displayTitle: "TUCO TITLE (look away)",
+          github: true,
+          linkedin: true
+        })
+        break
+      case 'lauren-pic':
+        this.setState({
+          activeProfile: true,
+          displayText: "Lauren Bio",
+          displayTitle: "Lauren Title",
+          github: true,
+          linkedin: true
+        })
+        break
+      default:
+        this.setState({
+          activeProfile: false,
+          displayText: "fdsfds",
+          displayTitle: "dddd",
+        })
+        break
     }
   }
 
@@ -35,7 +59,9 @@ export default class AboutSplash extends Component {
 
     return (
       <div id="about-splash" className="slow-fadeable splash-wrapper">
-        <Bio name={this.state.displayTitle} bioText={this.state.displayText} github="" linkedin="" />
+        <ImgButton className="exit-button" name="exit" imgSrc="static_assets/images/exit-icon-small.png" toggler={this.props.toggler}/>
+        <Bio name={this.state.displayTitle} bioText={this.state.displayText} github={this.state.github} linkedin={this.state.linkedin} />
+
         <div className="bio-pics-wrapper">
           <ul>
             <li id="daniel-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
@@ -53,6 +79,7 @@ export default class AboutSplash extends Component {
             <li id="tuco-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
               <img className="passive-img" src="static_assets/images/bio_imgs/tuco_bw.jpg"></img>
               <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/tuco_color.jpg"></img>
+
             </li>
           </ul>
         </div>
