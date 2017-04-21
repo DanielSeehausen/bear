@@ -9,7 +9,6 @@ $stocks = [
   {:company_name => "Akamai Technologies", :ticker => "AKAM"},
   {:company_name => "First Solar", :ticker => "FSLR"},
   {:company_name => "Netflix", :ticker => "NFLX"},
-  {:company_name => "Netflix", :ticker => "NFLX"},
   {:company_name => "S&P 500 IDX", :ticker => "^GSPC"}
 ]
 $start_date = Time::now - (24*60*60*365) # past year of data for error room

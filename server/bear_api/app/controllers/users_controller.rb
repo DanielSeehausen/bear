@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     @username = params[:username]
     if !@user
       @unique_id = gen_id()
-      @user_info = {msg_type: 'user_info', msg_data: {status: 'Newly Created', unique_id: @unique_id}}
+      @user_info = {msg_type: 'user_info', msg_data: {status: 'Newly Created', unique_id: @unique_id, username: "Anon", games_played: 0, cumulative_performance: 0}}
       create(@username)
     else
       @user_info = {msg_type: 'user_info', msg_data: {status: 'Found', games_played: @user.games_played, cumulative_performance: @user.cumulative_performance }}

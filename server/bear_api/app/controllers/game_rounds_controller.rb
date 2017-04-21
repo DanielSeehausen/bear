@@ -1,26 +1,49 @@
 class GameRoundsController < ApplicationController
 
   @@game_round_config = {starting_capital: 100000}
+  @@default_stocks = [
+    ["Expedia",             "EXPE"],
+    ["Intuitive Surgical",  "ISRG"],
+    ["Whole Foods Market",   "WFM"],
+    ["Amazon.com",          "AMZN"],
+    ["Priceline",           "PCLN"],
+    ["Michael Kors",        "KORS"],
+    ["TripAdvisor",         "TRIP"],
+    ["Akamai Technologies", "AKAM"],
+    ["First Solar",         "FSLR"],
+    ["Netflix",             "NFLX"],
+    ["S&P 500 IDX",        "^GSPC"]
+  ]
 
-  def serve_game_data
+  def pack_game_round_data(game_round)
+    return {status: 'Found',
+            asset_type: game_round.asset_type,
+            time_values: game_round.time_values,
+            price_values: game_round.price_values,
+            ticker: game_round.ticker,
+            company_name: game_round.company_name,
+            game_round_config: @@game_round_config}
+  end
+
+  def serve_default_game_data
+    @game_rounds_data = {msg_type: 'game_rounds', msg_data: nil}
+    @game_rounds_data[:msg_data] = @@default_stocks.map do |company|
+      @game_round = GameRound.find_by(ticker: params[:ticker])
+      @game_round ? pack_game_round_data(@game_round) : nil
+    end.compact
+    render json: @game_rounds_data.to_json
+  end
+
+  def serve_single_stock_data(ticker)
     @game_round_data = {msg_type: 'game_round', msg_data: nil}
     @game_round = GameRound.find_by(ticker: params[:ticker]) || GameRound.find_by(ticker: "^GSPC")
-
-    if !@game_round && params
-      @game_round_data[:msg_data] = {status: 'Not Found'}
-    else
-      @game_round_data[:msg_data] = {status: 'Found',
-                                     asset_type: @game_round.asset_type,
-                                     time_values: @game_round.time_values,
-                                     price_values: @game_round.price_values,
-                                     ticker: @game_round.ticker,
-                                     company_name: @game_round.company_name,
-                                     game_round_config: @@game_round_config}
-    end
-
+    @game_round_data[:msg_data] = pack_game_round_data(@game_round)
     render json: @game_round_data.to_json
   end
 
+  def serve_game_data
+    params[:ticker] == "DEFAULT" ? serve_default_game_data : serve_single_stock_data(params[:ticker])
+  end
   # protected
   #
   # def authenticate
