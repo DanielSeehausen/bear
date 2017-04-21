@@ -28,7 +28,7 @@ class GameRoundsController < ApplicationController
   def serve_default_game_data
     @game_rounds_data = {msg_type: 'game_rounds', msg_data: nil}
     @game_rounds_data[:msg_data] = @@default_stocks.map do |company|
-      @game_round = GameRound.find_by(ticker: params[:ticker])
+      @game_round = GameRound.find_by(ticker: company[1])
       @game_round ? pack_game_round_data(@game_round) : nil
     end.compact
     render json: @game_rounds_data.to_json

@@ -8,22 +8,12 @@ import Home from './components/home/home.component.jsx'
 import Game from './components/game/game.component.jsx'
 
 
-<<<<<<< HEAD
 (() => {
   let username = localStorage.getItem("username") || "Anon"
-  let uniqueId = localStorage.getItem("uniqueId") || false
-  let status = uniqueId ? "Found" : "Newly Created"
-  dispatch.reconcileUserProfile(username, uniqueId, status)
-  dispatch.getStockData("DEFAULT")
+  let uniqueId = localStorage.getItem("uniqueId") || "-1" // if no id found we default to -1. api will handle creation of new user
+  dispatch.reconcileUserProfile(username, uniqueId)
+  dispatch.reconcileStockData("DEFAULT")
 })()
-=======
-// (function manageProfile() {
-//   let username = localStorage.getItem("username") || "anon"
-//   let uniqueId = localStorage.getItem("uniqueId") || false
-//   let status = uniqueId ? "Found" : "Newly Created"
-//   dispatch.setUserProfile(username, uniqueId, status)
-// })()
->>>>>>> 84f7318adc645df00b82ed55a9d20811f690dffb
 
 ReactDOM.render(
   <Router history={browserHistory}>

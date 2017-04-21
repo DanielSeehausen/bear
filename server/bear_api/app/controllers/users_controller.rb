@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
 
   def show
+    #any issues should result in a new user being created
     @user = User.find(params[:id]) rescue false
+
     @username = params[:username]
     if !@user
       @unique_id = gen_id()
@@ -21,6 +23,7 @@ class UsersController < ApplicationController
 
 
   private
+
   def create(username)
     @user = User.create({username: username, games_played: 0, cumulative_performance: 0})
   end
