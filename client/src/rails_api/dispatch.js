@@ -1,4 +1,4 @@
-// 
+//
 // export const dispatch = {
 //   getUserProfile: (username, uniqueId) => {
 //     let path = `/users/${}:id/:username`
