@@ -8,12 +8,12 @@ import Home from './components/home/home.component.jsx'
 import Game from './components/game/game.component.jsx'
 
 
-(function manageProfile() {
-  let username = localStorage.getItem("username") || "anon"
-  let uniqueId = localStorage.getItem("uniqueId") || false
-  let status = uniqueId ? "Found" : "Newly Created"
-  dispatch.setUserProfile(username, uniqueId, status)
-})()
+// (function manageProfile() {
+//   let username = localStorage.getItem("username") || "anon"
+//   let uniqueId = localStorage.getItem("uniqueId") || false
+//   let status = uniqueId ? "Found" : "Newly Created"
+//   dispatch.setUserProfile(username, uniqueId, status)
+// })()
 
 ReactDOM.render(
   <Router history={browserHistory}>
