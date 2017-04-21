@@ -5,7 +5,6 @@ import HowToSplash from './splashes/howToSplash.component.jsx'
 import AboutSplash from './splashes/aboutSplash.component.jsx'
 import { animations } from '../helpers/css_animator.js'
 
-
 export default class Home extends Component {
   constructor() {
     super()
