@@ -16,10 +16,11 @@ ActiveRecord::Schema.define(version: 20170417203839) do
   enable_extension "plpgsql"
 
   create_table "game_rounds", force: :cascade do |t|
-    t.string   "underlying_asset_type"
-    t.datetime "time_values",           array: true
-    t.float    "price_values",          array: true
+    t.string   "asset_type"
+    t.datetime "time_values",  array: true
+    t.float    "price_values", array: true
     t.string   "ticker"
+    t.string   "company_name"
   end
 
   create_table "user_games", force: :cascade do |t|
