@@ -12,10 +12,34 @@ const data = [
 ]
 
 class Game extends Component {
+  constructor() {
+    super()
+    this.randomStockData = null
+    this.mountRandomStock = this.mountRandomStock.bind(this)
+  }
+
+   mountRandomStock(stock) {
+     console.log("Mounting: ", stock)
+     this.randomStockData = stock.price_values.map((val, idx) => {
+       return {name: stock.time_values[idx], uv: val}
+     })
+     console.log(this.randomStockData)
+     debugger
+   }
+
+  //  right here have something that delays the ma[]
+
+  componentWillMount() {
+    let self = this
+    $.getJSON('http://localhost:3000/game_rounds/DEFAULT').then((data) => {
+      self.mountRandomStock(data.msg_data[Math.floor(Math.random()*data.msg_data.length)])
+    }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
+  }
+
   render() {
     return(
       <AreaChart width={730} height={250} data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+        margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
 
         <defs>
 
