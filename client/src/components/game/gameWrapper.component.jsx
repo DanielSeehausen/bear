@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import GameHud from './gameHud.component.jsx'
 import GameGraph from './gameGraph.component.jsx'
 import GameButton from './gameButton.component.jsx'
-import { dateMagic } from '../helpers/formatHelpers.js'
+import { dateMagic, roundMagic } from '../helpers/formatHelpers.js'
 
 export default class GameWrapper extends Component {
   constructor() {
@@ -25,10 +25,13 @@ export default class GameWrapper extends Component {
       yearRange: null,
       sharePriceMin: Infinity,
       sharePriceMax: Number.NEGATIVE_INFINITY,
+      currIdx: null
     }
     this.mountRandomStock = this.mountRandomStock.bind(this)
     this.startGame = this.startGame.bind(this)
     this.endGame = this.endGame.bind(this)
+    this.appraise = this.appraise.bind(this)
+    this.isGameEnded = this.isGameEnded.bind(this)
     this.buy = this.buy.bind(this)
     this.sell = this.sell.bind(this)
     this.tick = this.tick.bind(this)
@@ -42,7 +45,7 @@ export default class GameWrapper extends Component {
     let randomStockData = stock.price_values.map((val, idx) => {
       if (val < min) min = val
       if (val > max) max = val
-      return {date: dateMagic.getSmallDate(stock.time_values[stock.time_values.length-idx-1]), sharePrice: val}
+      return {date: dateMagic.getSmallDate(stock.time_values[stock.time_values.length-idx-1]), sharePrice: roundMagic.round(val, 4)}
     })
     this.setState({
       data: randomStockData,
@@ -71,13 +74,28 @@ export default class GameWrapper extends Component {
     }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
   }
 
+  isGameEnded() {
+    return (this.state.currIdx >= this.state.data.length) ? true : false
+  }
+
   startGame() {
     //start game with first shareprice to ensure they cant trade on null
     if (this.state.stage !== "pregame") return
     this.setState({
-      stage: "active"
+      stage: "active",
+      currIdx: 0,
     })
     console.log("game starting")
+    let self = this
+    let gameLoop = setInterval(function() {
+      let nextVals = self.isGameEnded() ? false : self.state.data[self.state.currIdx]
+      if (!nextVals) {
+        clearInterval(gameLoop)
+        self.tick(nextVals, true)
+      } else {
+        self.tick(nextVals)
+      }
+    }, 50)
   }
 
   endGame() {
@@ -105,24 +123,32 @@ export default class GameWrapper extends Component {
     })
   }
 
-  appraise(movement, next) {
+  appraise(movement, next, over) {
     let newEquity = this.state.equity + (this.state.equity * movement)
     this.setState({
       equity: newEquity,
       sharePrice: next,
       change: this.state.cash + newEquity,
-      action: null
+      action: null,
+      currIdx: this.state.currIdx + 1
     })
+    if (over) {
+      this.setState({
+        stage: "Game Ended"
+      })
+    }
   }
 
-  tick(last, next) {
+  tick(nextVals, over=false) {
+    let next = nextVals.sharePrice
+    let last = this.state.data[this.state.currIdx].sharePrice
     let movement = (next == 0) ? 0 : next/last
     if (this.state.action === "buy") {
       buy(last)
     } else if (this.state.action === "sell") {
       sell(last)
     }
-    appraise(movement, next)
+    this.appraise(movement, next, over)
   }
 
   //TODO can combine into a trade(action) function and pass one
@@ -149,7 +175,7 @@ export default class GameWrapper extends Component {
         {this.state.company ? <h1 id="graph-title">{title}</h1> : null}
         {this.state.yearRange ? <h2 id="graph-title-years">{this.state.yearRange}</h2> : null}
         <div id="game-graph-wrapper">
-          {this.state.stage === "active" ? <GameGraph data={this.state.data} min={this.state.sharePriceMin} max={this.state.sharePriceMax} range={this.state.sharePriceMax - this.state.sharePriceMin}/> : <GameButton name="Start Game" handleClick={this.startGame} /> }
+          {this.state.stage === "active" ? <GameGraph data={this.state.data.slice(0, this.state.currIdx)} min={this.state.sharePriceMin} max={this.state.sharePriceMax} range={this.state.sharePriceMax - this.state.sharePriceMin}/> : <GameButton name="Start Game" handleClick={this.startGame} /> }
         </div>
       </div>
     )
