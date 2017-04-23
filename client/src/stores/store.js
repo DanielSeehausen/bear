@@ -14,5 +14,3 @@ export function configureStore(){
 }
 
 export const store = configureStore()
-
-

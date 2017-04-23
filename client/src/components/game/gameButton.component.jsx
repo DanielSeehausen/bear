@@ -6,12 +6,10 @@ export default class GameButton extends Component {
     super()
   }
 
-  componentDidMount() {
-  }
-
   render() {
     return (
-      <div className="game-button">
+      <div className="game-button" onClick={this.props.handleClick}>
+        <h2>{this.props.name}</h2>
       </div>
     )
   }

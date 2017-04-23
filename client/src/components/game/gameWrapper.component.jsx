@@ -2,23 +2,31 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 
 import GameHud from './gameHud.component.jsx'
-import Game from './game.component.jsx'
+import GameGraph from './gameGraph.component.jsx'
+import GameButton from './gameButton.component.jsx'
+import { dateMagic } from '../helpers/formatHelpers.js'
 
 export default class GameWrapper extends Component {
   constructor() {
     super()
     this.state = {
-      stage: "pregame",
+      stage: "loading",
       startingCapital: null,
       cash: null,
       equity: null,
       netWorth: null,
-      gains: null,
+      change: null,
       shareCount: null,
       sharePrice: null,
+      action: null, //whether they are buying or selling on on this round
+      data: null,
+      company: null,
+      ticker: null,
+      yearRange: null,
+      sharePriceMin: Infinity,
+      sharePriceMax: Number.NEGATIVE_INFINITY,
     }
-    this.stockData = null
-
+    this.mountRandomStock = this.mountRandomStock.bind(this)
     this.startGame = this.startGame.bind(this)
     this.endGame = this.endGame.bind(this)
     this.buy = this.buy.bind(this)
@@ -26,28 +34,50 @@ export default class GameWrapper extends Component {
     this.tick = this.tick.bind(this)
   }
 
+  mountRandomStock(stock) {
+    console.log("Mounting: ", stock.company_name)
+    let yearRange = dateMagic.getYearRange(stock.time_values)
+    let min = Infinity
+    let max = Number.NEGATIVE_INFINITY
+    let randomStockData = stock.price_values.map((val, idx) => {
+      if (val < min) min = val
+      if (val > max) max = val
+      return {date: dateMagic.getSmallDate(stock.time_values[stock.time_values.length-idx-1]), sharePrice: val}
+    })
+    this.setState({
+      data: randomStockData,
+      sharePrice: randomStockData[0].pv,
+      stage: "pregame",
+      company: stock.company_name,
+      ticker: stock.ticker,
+      yearRange: yearRange,
+      sharePriceMin: min,
+      sharePriceMax: max,
+    })
+  }
+
   componentWillMount() {
     $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
-      this.stockData = msg.msg_data
+      let randomStock = msg.msg_data[Math.floor(Math.random()*msg.msg_data.length)]
       this.setState({
-        startingCapital: msg.msg_data[0].game_round_config.starting_capital,
-        cash: msg.msg_data[0].game_round_config.starting_capital,
+        startingCapital: randomStock.game_round_config.starting_capital,
+        cash: randomStock.game_round_config.starting_capital,
         equity: 0,
-        netWorth: msg.msg_data[0].game_round_config.starting_capital,
-        gains: 0,
-        shareCount: 0,
+        netWorth: randomStock.game_round_config.starting_capital,
+        change: 0,
+        shareCount: 0
       })
-      debugger
+      this.mountRandomStock(randomStock)
     }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
   }
 
-  startGame(sharePrice) {
+  startGame() {
     //start game with first shareprice to ensure they cant trade on null
     if (this.state.stage !== "pregame") return
     this.setState({
-      sharePrice: sharePrice,
       stage: "active"
     })
+    console.log("game starting")
   }
 
   endGame() {
@@ -58,17 +88,19 @@ export default class GameWrapper extends Component {
   }
 
   buy(sharePrice) {
+    console.log("buy")
     if (this.state.stage !== "active") return
     this.setState({
-      cash: this.state.cash % sharePrice
+      cash: this.state.cash % sharePrice,
       shareCount: this.state.shareCount + Math.floor(this.state.cash / sharePrice)
     })
   }
 
   sell(sharePrice) {
+    console.log("sell")
     if (this.state.stage !== "active") return
     this.setState({
-      cash: this.state.cash + (this.state.shareCount * sharePrice)
+      cash: this.state.cash + (this.state.shareCount * sharePrice),
       shareCount: this.state.shareCount + Math.floor(this.state.cash / sharePrice)
     })
   }
@@ -78,25 +110,47 @@ export default class GameWrapper extends Component {
     this.setState({
       equity: newEquity,
       sharePrice: next,
-      gains: this.state.cash + newEquity
+      change: this.state.cash + newEquity,
+      action: null
     })
   }
 
-  tick(last, next, trade=false) {
+  tick(last, next) {
     let movement = (next == 0) ? 0 : next/last
-    if (trade === "buy") {
+    if (this.state.action === "buy") {
       buy(last)
-    } else if (trade === "sell") {
+    } else if (this.state.action === "sell") {
       sell(last)
     }
     appraise(movement, next)
   }
 
+  //TODO can combine into a trade(action) function and pass one
+  flagBuy() {
+    if (this.state.stage !== "active") return
+    this.setState({
+      action: "buy"
+    })
+  }
+
+  flagSell() {
+    if (this.state.stage !== "active") return
+    this.setState({
+      action: "sell"
+    })
+  }
+
   render() {
+    let figures = Object.assign({}, this.state)
+    const title = `${this.state.ticker}: ${this.state.company}`
     return (
       <div id="game-wrapper">
-        <GameHud id="game-hud"/>
-        <Game id="graph"/>
+        <GameHud id="game-hud" figures={figures} buy={this.buy} sell={this.sell}/>
+        {this.state.company ? <h1 id="graph-title">{title}</h1> : null}
+        {this.state.yearRange ? <h2 id="graph-title-years">{this.state.yearRange}</h2> : null}
+        <div id="game-graph-wrapper">
+          {this.state.stage === "active" ? <GameGraph data={this.state.data} min={this.state.sharePriceMin} max={this.state.sharePriceMax} range={this.state.sharePriceMax - this.state.sharePriceMin}/> : <GameButton name="Start Game" handleClick={this.startGame} /> }
+        </div>
       </div>
     )
   }
