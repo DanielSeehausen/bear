@@ -74,23 +74,33 @@ ul {
   animation: colorShiftImg 3s ease-in-out infinite;
 }
 
-#about-splash {
-  /*display: flex;
+#about-splash-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
   align-items: center;
-  justify-content: center;*/
+  justify-content: center;
+  flex-direction: column;
+}
+
+#halp {
+  height: 40%;
 }
 
 .bio-wrapper {
   font-family: Calibri, sans-serif;
-  position: absolute;
   width: 100%;
-  margin: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
 }
 
 .bio-text {
   text-align: center;
   width: 80%;
+  height: 30%;
   max-width: 600px;
   top: 50px;
 }

@@ -55,26 +55,29 @@ export default class AboutSplash extends Component {
     return (
       <div id="about-splash" className="slow-fadeable splash-wrapper">
         <ImgButton className="exit-button" name="exit" imgSrc="static_assets/images/exit-icon-small.png" toggler={this.props.toggler}/>
-        <Bio name={this.state.displayTitle} bioText={this.state.displayText} github="aaa" linkedin="bbb" />
-        <div className="bio-pics-wrapper">
-          <ul>
-            <li id="daniel-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
-              <img className="passive-img" src="static_assets/images/bio_imgs/ds_bw.jpg"></img>
-              <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/ds_color.jpg"></img>
-            </li>
-            <li id="lauren-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
-              <img className="passive-img" src="static_assets/images/bio_imgs/lg_bw.jpg"></img>
-              <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/lg_color.jpg"></img>
-            </li>
-            <li id="nick-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
-              <img className="passive-img" src="static_assets/images/bio_imgs/na_bw.jpg"></img>
-              <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/na_color.jpg"></img>
-            </li>
-            <li id="tuco-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
-              <img className="passive-img" src="static_assets/images/bio_imgs/tuco_bw.jpg"></img>
-              <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/tuco_color.jpg"></img>
-            </li>
-          </ul>
+        <div id="about-splash-wrapper">
+          <div id="halp"></div>
+          <Bio name={this.state.displayTitle} bioText={this.state.displayText} github="aaa" linkedin="bbb" />
+          <div className="bio-pics-wrapper">
+            <ul>
+              <li id="daniel-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
+                <img className="passive-img" src="static_assets/images/bio_imgs/ds_bw.jpg"></img>
+                <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/ds_color.jpg"></img>
+              </li>
+              <li id="lauren-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
+                <img className="passive-img" src="static_assets/images/bio_imgs/lg_bw.jpg"></img>
+                <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/lg_color.jpg"></img>
+              </li>
+              <li id="nick-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
+                <img className="passive-img" src="static_assets/images/bio_imgs/na_bw.jpg"></img>
+                <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/na_color.jpg"></img>
+              </li>
+              <li id="tuco-pic" onMouseOver={this.mouseOverHandler} className="bio-pic">
+                <img className="passive-img" src="static_assets/images/bio_imgs/tuco_bw.jpg"></img>
+                <img className="slow-fadeable active-img" src="static_assets/images/bio_imgs/tuco_color.jpg"></img>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     )
