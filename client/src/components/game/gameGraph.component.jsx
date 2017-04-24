@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
+import { AreaChart, XAxis, YAxis, Tooltip, Area, CartesianGrid } from 'recharts'
 
 export default class GameGraph extends Component {
   constructor() {
@@ -17,9 +17,10 @@ export default class GameGraph extends Component {
               <stop offset="95%" stopColor="#BB8811" stopOpacity={0.3}/>
             </linearGradient>
           </defs>
-          <XAxis dataKey="date" />
+          <XAxis dataKey="date" interval={90} />
           <YAxis domain={[this.props.sharePriceMin - this.props.range*10, this.props.sharePriceMax + this.props.range*10]}/>
           <Tooltip />
+          <CartesianGrid stroke="" />
           <Area type="monotone"
                 dataKey="sharePrice"
                 stroke="#8884d8"

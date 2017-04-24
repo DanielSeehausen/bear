@@ -1,8 +1,7 @@
 body {
-  background-color: #eee;
+  background-image: url("static_assets/mochaGrunge.png");
   margin: 0 auto;
   cursor: default;
-
 }
 
 ul {
@@ -128,21 +127,23 @@ ul {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-
 }
 
 .bio-pic {
   padding: 15px;
 }
 
+
 .partial-fade {
   position: absolute;
   opacity: .75;
+
 }
 
 .passive-img {
   position: absolute;
   z-index: -1;
+  box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
 }
 
 .active-img:hover {

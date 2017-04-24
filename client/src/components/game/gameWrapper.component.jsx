@@ -38,12 +38,12 @@ export default class GameWrapper extends Component {
     this.sell = this.sell.bind(this)
     this.flagBuy = this.flagBuy.bind(this)
     this.flagSell = this.flagSell.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
     this.tick = this.tick.bind(this)
   }
 
   mountRandomStock(stock) {
     console.log("Mounting: ", stock.company_name)
-    console.log(stock)
     let yearRange = dateMagic.getYearRange(stock.time_values)
     let min = Infinity
     let max = Number.NEGATIVE_INFINITY
@@ -94,6 +94,11 @@ export default class GameWrapper extends Component {
     }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+
+  }
+
   startGame() {
     //start game with first shareprice to ensure they cant trade on null
     if (this.state.stage === "Game Ended") this.restart()
@@ -110,8 +115,11 @@ export default class GameWrapper extends Component {
         let nextVal = self.state.data[self.state.currIdx].sharePrice
         self.tick(nextVal)
       }
-    }, 50)
+    }, 10)
+
   }
+
+  // 2405  10ms
 
   endGame() {
     if (this.state.stage !== "active") return
@@ -155,7 +163,6 @@ export default class GameWrapper extends Component {
   }
 
   tick(nextVal) {
-
     var lastVal = this.state.sharePrice
     if (this.state.action === "buy") {
       this.buy(lastVal)
@@ -180,11 +187,23 @@ export default class GameWrapper extends Component {
     })
   }
 
+  handleKeyDown(e) {
+    if (this.state.stage === "active") {
+      if (e.key === 'p' || e.keyCode === 80) {
+        this.flagBuy()
+      } else if (e.key === 'l' || e.keyCode === 76) {
+        this.flagSell()
+      }
+    }
+    if ((this.state.stage === "pregame" || this.state.stage === "Game Ended") && (e.key === 'spacebar' || e.keyCode === 32))
+      this.startGame()
+  }
+
   render() {
     let figures = Object.assign({}, this.state)
     const title = `${this.state.ticker}: ${this.state.company}`
     return (
-      <div id="game-wrapper">
+      <div id="game-wrapper" onKeyPress={this.handleKeyPress} >
         <GameHud id="game-hud" figures={figures} buy={this.flagBuy} sell={this.flagSell}/>
         {this.state.company ? <h1 id="graph-title">{title}</h1> : null}
         {this.state.yearRange ? <h2 id="graph-title-years">{this.state.yearRange}</h2> : null}
