@@ -19,9 +19,9 @@ export default class GameHud extends Component {
         <GameButton name="Sell" handleClick={this.props.sell} stage={this.props.figures.stage}/>
         <FigureBox name="Share Price" figure={roundMagic.round(this.props.figures.sharePrice, 4) || 0}/>
         <FigureBox name="Cash" figure={roundMagic.round(this.props.figures.cash, 2) || 0}/>
-        <FigureBox name="Equity" figure={roundMagic.round(this.props.figures.equity) || 0}/>
+        <FigureBox name="Equity" figure={roundMagic.roundToKString(this.props.figures.equity) || 0}/>
         <FigureBox name="Change" figure={roundMagic.round(this.props.figures.change) || 0}/>
-        <FigureBox name="Net Worth" figure={roundMagic.round(this.props.figures.netWorth) || 0}/>
+        <FigureBox name="Net Worth" figure={roundMagic.roundToKString(this.props.figures.netWorth) || 0}/>
       </div>
     )
   }

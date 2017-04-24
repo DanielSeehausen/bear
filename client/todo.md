@@ -8,3 +8,8 @@ today
  - Seed some data in react so the game can use it while testing
  - Finish the calls to rails from react
  - Finish everything ui outside of the game in progress itself (including end game splash screen)
+fix back button
+larger data sets
+sounds
+buy sell map markers
+result as if you invested and made no sell/buys after that at start

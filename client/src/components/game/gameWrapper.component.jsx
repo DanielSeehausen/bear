@@ -43,6 +43,7 @@ export default class GameWrapper extends Component {
 
   mountRandomStock(stock) {
     console.log("Mounting: ", stock.company_name)
+    console.log(stock)
     let yearRange = dateMagic.getYearRange(stock.time_values)
     let min = Infinity
     let max = Number.NEGATIVE_INFINITY
@@ -129,6 +130,7 @@ export default class GameWrapper extends Component {
       action: null,
       currIdx: this.state.currIdx + 1,
       netWorth: newNW,
+      equity: newEquity,
     })
   }
 
@@ -153,6 +155,7 @@ export default class GameWrapper extends Component {
   }
 
   tick(nextVal) {
+
     var lastVal = this.state.sharePrice
     if (this.state.action === "buy") {
       this.buy(lastVal)
