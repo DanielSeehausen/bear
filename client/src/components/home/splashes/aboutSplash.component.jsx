@@ -17,7 +17,6 @@ export default class AboutSplash extends Component {
   }
 
   mouseOverHandler(event) {
-    console.log("sdsd")
     switch (event.currentTarget.id) {
       case "daniel-pic":
       this.setState({

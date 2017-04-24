@@ -31,7 +31,6 @@ export default class GameWrapper extends Component {
     this.startGame = this.startGame.bind(this)
     this.endGame = this.endGame.bind(this)
     this.appraise = this.appraise.bind(this)
-    this.isGameEnded = this.isGameEnded.bind(this)
     this.buy = this.buy.bind(this)
     this.sell = this.sell.bind(this)
     this.tick = this.tick.bind(this)
@@ -74,10 +73,6 @@ export default class GameWrapper extends Component {
     }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
   }
 
-  isGameEnded() {
-    return (this.state.currIdx >= this.state.data.length) ? true : false
-  }
-
   startGame() {
     //start game with first shareprice to ensure they cant trade on null
     if (this.state.stage !== "pregame") return
@@ -87,15 +82,15 @@ export default class GameWrapper extends Component {
     })
     console.log("game starting")
     let self = this
-    let gameLoop = setInterval(function() {
-      let nextVals = self.isGameEnded() ? false : self.state.data[self.state.currIdx]
+    let gameLoop = setInterval(() => {
+      let nextVals = self.state.data[self.state.currIdx]
       if (!nextVals) {
+        self.tick(self.state.sharePrice, true)
         clearInterval(gameLoop)
-        self.tick(nextVals, true)
       } else {
         self.tick(nextVals)
       }
-    }, 50)
+    }, 10)
   }
 
   endGame() {
@@ -130,7 +125,7 @@ export default class GameWrapper extends Component {
       sharePrice: next,
       change: this.state.cash + newEquity,
       action: null,
-      currIdx: this.state.currIdx + 1
+  currIdx: this.state.currIdx + 1
     })
     if (over) {
       this.setState({
@@ -140,8 +135,14 @@ export default class GameWrapper extends Component {
   }
 
   tick(nextVals, over=false) {
-    let next = nextVals.sharePrice
-    let last = this.state.data[this.state.currIdx].sharePrice
+    if (over) {
+      debugger
+      var last = this.state.data[this.state.currIdx-1].sharePrice
+      var next = false
+    } else {
+      var last = this.state.data[this.state.currIdx].sharePrice
+      var next = nextVals.sharePrice
+    }
     let movement = (next == 0) ? 0 : next/last
     if (this.state.action === "buy") {
       buy(last)
