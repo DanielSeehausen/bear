@@ -13,9 +13,8 @@ import GameWrapper from './components/game/gameWrapper.component.jsx'
   dispatch.reconcileUserProfile(username, uniqueId)
 })()
 
-
 ReactDOM.render(
-  <Router history={browserHistory}>
+  <Router history={history}>
     <div>
       <Route exact path='/' component={Home} />
       <Route path='/home' component={Home} />

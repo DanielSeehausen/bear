@@ -36,7 +36,6 @@ export default class MainMenu extends Component {
               <ImgButton name="game" imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.startGame} />
             </Link>
           </li>
-          <li><ImgButton name="how-to" imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.howToSplash} /></li>
         </ul>
       </div>
     )

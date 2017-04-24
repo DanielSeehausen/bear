@@ -4,6 +4,7 @@ import { render } from 'react-dom'
 import GameButton from './gameButton.component.jsx'
 import FigureBox from './figureBox.component.jsx'
 import { roundMagic } from '../helpers/formatHelpers.js'
+import { Link } from 'react-router-dom'
 
 export default class GameHud extends Component {
   constructor() {
@@ -13,14 +14,19 @@ export default class GameHud extends Component {
   render() {
     return (
       <div id="game-hud">
-        <GameButton name="Buy" handleClick={this.props.buy}/>
-        <GameButton name="Sell" handleClick={this.props.sell}/>
+        <GameButton name="Back" stage={this.props.figures.stage}/>
+        <GameButton name="Buy" handleClick={this.props.buy} stage={this.props.figures.stage}/>
+        <GameButton name="Sell" handleClick={this.props.sell} stage={this.props.figures.stage}/>
         <FigureBox name="Share Price" figure={roundMagic.round(this.props.figures.sharePrice, 4) || 0}/>
         <FigureBox name="Cash" figure={roundMagic.round(this.props.figures.cash, 2) || 0}/>
-        <FigureBox name="Equity" figure={this.props.figures.equity || 0}/>
-        <FigureBox name="Change" figure={this.props.figures.gains || 0}/>
-        <FigureBox name="Net Worth" figure={this.props.figures.netWorth || 0}/>
+        <FigureBox name="Equity" figure={roundMagic.round(this.props.figures.equity) || 0}/>
+        <FigureBox name="Change" figure={roundMagic.round(this.props.figures.change) || 0}/>
+        <FigureBox name="Net Worth" figure={roundMagic.round(this.props.figures.netWorth) || 0}/>
       </div>
     )
   }
 }
+
+// <Link id="urmumm8" to="/home">
+//   <GameButton name="Back" stage={this.props.figures.stage}/>
+// </Link>
