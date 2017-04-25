@@ -2,18 +2,30 @@ class GameRoundsController < ApplicationController
 
   @@game_round_config = {starting_capital: 100000}
   @@default_stocks = [
-    ["Expedia",             "EXPE"],
-    ["Intuitive Surgical",  "ISRG"],
-    ["Whole Foods Market",   "WFM"],
-    ["Amazon.com",          "AMZN"],
-    ["Priceline",           "PCLN"],
-    ["Michael Kors",        "KORS"],
-    ["TripAdvisor",         "TRIP"],
-    ["Akamai Technologies", "AKAM"],
-    ["First Solar",         "FSLR"],
-    ["Netflix",             "NFLX"],
-    ["S&P 500 IDX",        "^GSPC"]
-  ]
+  ["Expedia", "EXPE"],
+  ["Intuitive Surgical", "ISRG"],
+  ["Whole Foods Market", "WFM"],
+  ["Amazon.com", "AMZN"],
+  ["Priceline", "PCLN"],
+  ["Akamai Technologies", "AKAM"],
+  ["First Solar", "FSLR"],
+  ["Netflix", "NFLX"],
+  ["S&P 500 IDX", "^GSPC"],
+  ["Herbalife", "HLF"],
+  ["Alphabet", "GOOG"],
+  ["BlackBerry", "BBRY"],
+  ["American International Group", "AIG"],
+  ["Vivus", "VVUS"],
+  ["Nicholas Financial", "NICK"],
+  ["Lazard", "LAZ"],
+  ["Goldman Sachs", "GS"],
+  ["BNP Paribas", "BNP.PA"],
+  ["The Houses of Lazard", "LAZ"],
+  ["BlackRock", "BLK"],
+  ["Activision Blizzard", "ATVI"],
+  ["Newmont Mining", "NEM"],
+  ["Trina Solar", "TSL"]
+]
 
   def pack_game_round_data(game_round)
     return {status: 'Found',

@@ -5,6 +5,7 @@ import GameHud from './gameHud.component.jsx'
 import GameGraph from './gameGraph.component.jsx'
 import GameButton from './gameButton.component.jsx'
 import { dateMagic, roundMagic } from '../helpers/formatHelpers.js'
+import { ReferenceLine } from 'recharts'
 
 export default class GameWrapper extends Component {
   constructor() {
@@ -25,7 +26,9 @@ export default class GameWrapper extends Component {
       yearRange: null,
       sharePriceMin: Infinity,
       sharePriceMax: Number.NEGATIVE_INFINITY,
-      currIdx: null
+      currIdx: null,
+      buyLine: null,
+      transactionLines: [],
     }
     this.allStockData = null
     this.mountRandomStock = this.mountRandomStock.bind(this)
@@ -119,8 +122,6 @@ export default class GameWrapper extends Component {
 
   }
 
-  // 2405  10ms
-
   endGame() {
     if (this.state.stage !== "active") return
     this.setState({
@@ -175,15 +176,23 @@ export default class GameWrapper extends Component {
   //TODO can combine into a trade(action) function and pass one
   flagBuy() {
     if (this.state.stage !== "active") return
+    let newLines = this.state.transactionLines
+    newLines.push(<ReferenceLine key={this.state.transactionLines.length} x={this.state.currIdx} stroke="#22FF22" strokeDasharray="1 1" strokeWidth={1}/>)
     this.setState({
-      action: "buy"
+      action: "buy",
+      transactionLines: newLines,
+      buyLine: <ReferenceLine y={this.state.sharePrice} stroke="green" strokeDasharray="3 3" strokeWidth={5}/>
     })
   }
 
   flagSell() {
     if (this.state.stage !== "active") return
+    let newLines = this.state.transactionLines
+    newLines.push(<ReferenceLine key={this.state.transactionLines.length} x={this.state.currIdx} stroke="#FF2222" strokeDasharray="1 1" strokeWidth={1}/>)
     this.setState({
-      action: "sell"
+      action: "sell",
+      transactionLines: newLines,
+      buyLine: null
     })
   }
 
@@ -193,6 +202,8 @@ export default class GameWrapper extends Component {
         this.flagBuy()
       } else if (e.key === 'l' || e.keyCode === 76) {
         this.flagSell()
+      } else if (e.key === 'escape' || e.keyCode === 27) {
+        // TODO: implement early end game
       }
     }
     if ((this.state.stage === "pregame" || this.state.stage === "Game Ended") && (e.key === 'spacebar' || e.keyCode === 32))
@@ -208,7 +219,13 @@ export default class GameWrapper extends Component {
         {this.state.company ? <h1 id="graph-title">{title}</h1> : null}
         {this.state.yearRange ? <h2 id="graph-title-years">{this.state.yearRange}</h2> : null}
         <div id="game-graph-wrapper">
-          {(this.state.stage === "active" || this.state.stage === "Game Ended") ? <GameGraph data={this.state.data.slice(0, this.state.currIdx)} min={this.state.sharePriceMin} max={this.state.sharePriceMax} range={this.state.sharePriceMax - this.state.sharePriceMin}/> : null}
+          {(this.state.stage === "active" || this.state.stage === "Game Ended") ?
+              <GameGraph data={this.state.data.slice(0, this.state.currIdx)}
+                         min={this.state.sharePriceMin}
+                         max={this.state.sharePriceMax}
+                         range={this.state.sharePriceMax - this.state.sharePriceMin}
+                         buyLine={this.state.buyLine}
+                         transactionLines={this.state.transactionLines} /> : null}
           {(this.state.stage === "pregame") ? <GameButton name="Start Game" handleClick={this.startGame} /> : null }
           {(this.state.stage === "Game Ended") ? <GameButton name="Start New Game" handleClick={this.startGame} /> : null }
         </div>

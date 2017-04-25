@@ -23,22 +23,22 @@ $stocks = [
   {:company_name => "Newmont Mining", :ticker => "NEM"},
   {:company_name => "Trina Solar", :ticker => "TSL"},
 ]
-$start_date = Time::now - (24*60*60*3650) # past year of data for error room
+$start_date = Time::now - (24*60*60*2000) # past year of data for error room
 $end_date = Time::now # everything up until present
-$limit = 2405 # there were 251 trading days in 2017
+$limit = 950 # there were 251 trading days in 2017
 $yahoo_client = YahooFinance::Client.new
 
 def unpack_stock_values(api_stock_data, stock)
   time_values = []
   price_values = []
 
-  api_stock_data.reverse.each_with_index do |element, idx| #reversing so we start with the most recent
+  api_stock_data.each_with_index do |element, idx| #reversing so we start with the most recent
     break if idx == $limit # only get $limit to account for holidays
     day_data = element.to_h
     day_data[:trade_date] ? time_values.push(day_data[:trade_date]) : next
     day_data[:close] ? price_values.push(day_data[:close]) : next
   end
-
+  price_values = price_values.reverse
   if time_values.length != $limit
     puts "Bad data for: #{stock[:ticker]}! Not enough values from previous year.\nFound: #{time_values.length}\nNeeded: #{$limit}"
     return false

@@ -67,6 +67,7 @@ ul {
 .img-button {
   padding: 30px;
   margin: 30px 0 30px 0;
+  filter: drop-shadow(5px 5px 5px rgba(0,0,0,.5));
 }
 
 .img-button:hover {
@@ -83,7 +84,7 @@ ul {
 }
 
 #halp {
-  height: 40%;
+  height: 10%;
 }
 
 .bio-wrapper {
@@ -97,10 +98,11 @@ ul {
 }
 
 .bio-text {
+  font-size: 20pt;
   text-align: center;
   width: 80%;
-  height: 30%;
-  max-width: 600px;
+  max-width: 1000px;
+  min-width: 850px;
   top: 50px;
 }
 
@@ -111,7 +113,7 @@ ul {
 }
 
 .icons-list li {
-  padding: 0 75px;
+  padding: 0 25px;
   margin: 0 10px;
 }
 

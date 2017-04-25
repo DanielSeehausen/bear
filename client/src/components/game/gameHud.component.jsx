@@ -14,7 +14,9 @@ export default class GameHud extends Component {
   render() {
     return (
       <div id="game-hud">
-        <GameButton name="Back" stage={this.props.figures.stage}/>
+        <Link id="bullshit-link" to="/home">
+          <GameButton name="Back" stage={this.props.figures.stage}/>
+        </Link>
         <GameButton name="Buy" handleClick={this.props.buy} stage={this.props.figures.stage}/>
         <GameButton name="Sell" handleClick={this.props.sell} stage={this.props.figures.stage}/>
         <FigureBox name="Share Price" figure={roundMagic.round(this.props.figures.sharePrice, 4) || 0}/>
