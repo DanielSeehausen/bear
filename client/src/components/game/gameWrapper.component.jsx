@@ -19,7 +19,7 @@ export default class GameWrapper extends Component {
       change: null,
       shareCount: null,
       sharePrice: null,
-      action: null, //whether they are buying or selling on on this round
+      action: null, 
       data: null,
       company: null,
       ticker: null,

@@ -1,0 +1,16 @@
+g(i, c=0) {
+  if (i==1 || d[i]) return d[i] + c
+  q = (i%2 === 0) ? i/2 : ((i*3) + 1)
+  return g(q, c+1)
+}
+
+((x=1000000) => {
+  m=i=1
+  a=new Array(x)
+  while(i<x){
+    a[i]=g(i)
+    if (a[i] > m) m = a[i]
+    i++
+  }
+  console.log(m)
+})
