@@ -1,6 +1,6 @@
 import { stockDataController } from '../controllers/stockDataController.js'
 
-const endpoint = 'https://beargame-api.herokuapp.com'
+const endpoint = 'http://localhost:3000'
 const defaultUserProfile = { msg_data: {
     status: "Newly Created",
     username: "Anon",
