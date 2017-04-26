@@ -6,6 +6,7 @@ import GameGraph from './gameGraph.component.jsx'
 import GameButton from './gameButton.component.jsx'
 import { dateMagic, roundMagic } from '../helpers/formatHelpers.js'
 import { ReferenceLine } from 'recharts'
+import { seededStocks } from './stockSeedData.js'
 
 export default class GameWrapper extends Component {
   constructor() {
@@ -19,7 +20,7 @@ export default class GameWrapper extends Component {
       change: null,
       shareCount: null,
       sharePrice: null,
-      action: null, //whether they are buying or selling on on this round
+      action: null,
       data: null,
       company: null,
       ticker: null,
@@ -30,7 +31,7 @@ export default class GameWrapper extends Component {
       buyLine: null,
       transactionLines: [],
     }
-    this.allStockData = null
+    this.allStockData = seededStocks
     this.mountRandomStock = this.mountRandomStock.bind(this)
     this.assignRandomStock = this.assignRandomStock.bind(this)
     this.startGame = this.startGame.bind(this)
@@ -91,15 +92,16 @@ export default class GameWrapper extends Component {
   }
 
   componentWillMount() {
-    const endpoint = 'https://beargame-api.herokuapp.com'
-    $.getJSON(`${endpoint}/game_rounds/DEFAULT`).then((msg) => {
-      this.allStockData = msg.msg_data
-      this.assignRandomStock()
-    }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
+    // $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
+    //   this.allStockData = msg.msg_data
+    //   this.assignRandomStock()
+    // }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
+    this.assignRandomStock()
   }
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
+
   }
 
   startGame() {
