@@ -11,5 +11,4 @@ today
 fix back button
 larger data sets
 sounds
-buy sell map markers
 result as if you invested and made no sell/buys after that at start

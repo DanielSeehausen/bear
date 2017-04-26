@@ -100,7 +100,6 @@ export default class GameWrapper extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
-
   }
 
   startGame() {
