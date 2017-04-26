@@ -91,7 +91,8 @@ export default class GameWrapper extends Component {
   }
 
   componentWillMount() {
-    $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
+    const endpoint = 'https://beargame-api.herokuapp.com'
+    $.getJSON(`${endpoint}/game_rounds/DEFAULT`).then((msg) => {
       this.allStockData = msg.msg_data
       this.assignRandomStock()
     }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
