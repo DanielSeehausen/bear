@@ -5,8 +5,8 @@ import Bio from './bio.component.jsx'
 
 const profiles = {
   def: {
-    title: "THIS IS DEF TITLE",
-    text: "This is the text about the game",
+    title: "",
+    text: "Bear allows the user to experience the highs and lows of stock market trading. Built with Rails, React, Express, and love. Either click buy and sell or use 'p' and 'l'. Go out there and make some money!,
     github: false,
     linkedin: false,
     lastActive: "def"
