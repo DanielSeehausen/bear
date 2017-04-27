@@ -6,6 +6,7 @@ import GameGraph from './gameGraph.component.jsx'
 import GameButton from './gameButton.component.jsx'
 import { dateMagic, roundMagic } from '../helpers/formatHelpers.js'
 import { ReferenceLine } from 'recharts'
+import { seededStocks } from './stockSeedData.js'
 
 export default class GameWrapper extends Component {
   constructor() {
@@ -29,8 +30,9 @@ export default class GameWrapper extends Component {
       currIdx: null,
       buyLine: null,
       transactionLines: [],
+      allIn: false,
     }
-    this.allStockData = null
+    this.allStockData = seededStocks
     this.mountRandomStock = this.mountRandomStock.bind(this)
     this.assignRandomStock = this.assignRandomStock.bind(this)
     this.startGame = this.startGame.bind(this)
@@ -91,10 +93,11 @@ export default class GameWrapper extends Component {
   }
 
   componentWillMount() {
-    $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
-      this.allStockData = msg.msg_data
-      this.assignRandomStock()
-    }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
+    // $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
+    //   this.allStockData = msg.msg_data
+    //   this.assignRandomStock()
+    // }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
+    this.assignRandomStock()
   }
 
   componentDidMount() {
@@ -149,7 +152,8 @@ export default class GameWrapper extends Component {
     this.setState({
       cash: this.state.cash % sharePrice,
       shareCount: this.state.shareCount + purchasedShares,
-      equity: this.state.shareCount * sharePrice
+      equity: this.state.shareCount * sharePrice,
+      allIn: true
     })
   }
 
@@ -160,6 +164,7 @@ export default class GameWrapper extends Component {
       cash: this.state.cash + profit,
       shareCount: 0,
       equity: 0,
+      allIn: false
     })
   }
 
@@ -175,7 +180,7 @@ export default class GameWrapper extends Component {
 
   //TODO can combine into a trade(action) function and pass one
   flagBuy() {
-    if (this.state.stage !== "active") return
+    if (this.state.stage !== "active" || this.state.allIn) return
     let newLines = this.state.transactionLines
     newLines.push(<ReferenceLine key={this.state.transactionLines.length} x={this.state.currIdx} stroke="#22FF22" strokeDasharray="1 1" strokeWidth={1}/>)
     this.setState({
@@ -186,7 +191,7 @@ export default class GameWrapper extends Component {
   }
 
   flagSell() {
-    if (this.state.stage !== "active") return
+    if (this.state.stage !== "active" || !this.state.allIn) return
     let newLines = this.state.transactionLines
     newLines.push(<ReferenceLine key={this.state.transactionLines.length} x={this.state.currIdx} stroke="#FF2222" strokeDasharray="1 1" strokeWidth={1}/>)
     this.setState({

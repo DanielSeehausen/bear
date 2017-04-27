@@ -161,7 +161,13 @@ ul {
 }
 
 #how-to-button {}
-#about-button {}
+
+#about-img-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  margin: 0px;
+}
 
 @keyframes colorShift {
   0%   { color: #FF1111; text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1111, 0 0 70px #FF1111, 0 0 80px #FF1111, 0 0 100px #FF1111, 0 0 150px #FF1111; }
