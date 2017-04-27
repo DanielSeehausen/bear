@@ -8,6 +8,30 @@ import { dateMagic, roundMagic } from '../helpers/formatHelpers.js'
 import { ReferenceLine } from 'recharts'
 import { seededStocks } from './stockSeedData.js'
 
+const defState = {
+  stage: "loading",
+  startingCapital: null,
+  cash: null,
+  equity: null,
+  netWorth: null,
+  change: null,
+  shareCount: null,
+  sharePrice: null,
+  action: null,
+  data: null,
+  company: null,
+  ticker: null,
+  yearRange: null,
+  sharePriceMin: Infinity,
+  sharePriceMax: Number.NEGATIVE_INFINITY,
+  currIdx: null,
+  buyLine: null,
+  transactionLines: [],
+  allIn: false,
+  lastInvestment: 0,
+}
+
+
 export default class GameWrapper extends Component {
   constructor() {
     super()
@@ -31,6 +55,7 @@ export default class GameWrapper extends Component {
       buyLine: null,
       transactionLines: [],
       allIn: false,
+      lastInvestment: 0,
     }
     this.allStockData = seededStocks
     this.mountRandomStock = this.mountRandomStock.bind(this)
@@ -45,6 +70,7 @@ export default class GameWrapper extends Component {
     this.flagSell = this.flagSell.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.tick = this.tick.bind(this)
+    this.playAppropriateSellSound = this.playAppropriateSellSound.bind(this)
   }
 
   mountRandomStock(stock) {
@@ -89,23 +115,27 @@ export default class GameWrapper extends Component {
   }
 
   restart() {
+    console.log("Restarting")
+    this.setState(Object.assign({}, defState))
     this.assignRandomStock()
   }
 
   componentWillMount() {
-    // $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
-    //   this.allStockData = msg.msg_data
-    //   this.assignRandomStock()
-    // }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
     this.assignRandomStock()
   }
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
-
+    let audioElements = document.getElementsByTagName("audio")
+    this.buyAudio = audioElements[0]
+    this.badSellAudio = audioElements[1]
+    this.okSellAudio = audioElements[2]
+    this.goodSellAudio = audioElements[3]
+    this.buyAudio.volume = this.badSellAudio.volume = this.okSellAudio.volume = this.goodSellAudio.volume = .8
   }
 
   startGame() {
+    console.log("Starting")
     //start game with first shareprice to ensure they cant trade on null
     if (this.state.stage === "Game Ended") this.restart()
     this.setState({
@@ -132,6 +162,12 @@ export default class GameWrapper extends Component {
     })
   }
 
+  playAppropriateSellSound(sentiment) {
+    // This little diddy below goes out to stephen because he <3s chaining ternaries
+    let x = (sentiment < .9) ? this.badSellAudio : (sentiment < 1.1) ? this.okSellAudio : this.goodSellAudio
+    x.play()
+  }
+
   appraise(lastVal, nextVal) {
     let newEquity = this.state.shareCount*lastVal
     let oldNW = this.state.netWorth
@@ -144,27 +180,33 @@ export default class GameWrapper extends Component {
       netWorth: newNW,
       equity: newEquity,
     })
+
   }
 
   buy(sharePrice) {
     if (this.state.stage !== "active") return
     let purchasedShares = Math.floor(this.state.cash / sharePrice)
+    let equity = purchasedShares * sharePrice
     this.setState({
       cash: this.state.cash % sharePrice,
       shareCount: this.state.shareCount + purchasedShares,
-      equity: this.state.shareCount * sharePrice,
-      allIn: true
+      equity: equity,
+      allIn: true,
+      lastInvestment: equity
     })
   }
 
   sell(sharePrice) {
     if (this.state.stage !== "active") return
     let profit = Math.ceil(this.state.shareCount * sharePrice)
+
+    this.playAppropriateSellSound(profit/this.state.lastInvestment)
     this.setState({
       cash: this.state.cash + profit,
       shareCount: 0,
       equity: 0,
-      allIn: false
+      allIn: false,
+      lastInvestment: 0,
     })
   }
 
@@ -182,6 +224,7 @@ export default class GameWrapper extends Component {
   flagBuy() {
     if (this.state.stage !== "active" || this.state.allIn) return
     let newLines = this.state.transactionLines
+    this.buyAudio.play()
     newLines.push(<ReferenceLine key={this.state.transactionLines.length} x={this.state.currIdx} stroke="#22FF22" strokeDasharray="1 1" strokeWidth={1}/>)
     this.setState({
       action: "buy",
@@ -220,6 +263,10 @@ export default class GameWrapper extends Component {
     const title = `${this.state.ticker}: ${this.state.company}`
     return (
       <div id="game-wrapper" onKeyPress={this.handleKeyPress} >
+        <audio><source src="static_assets/sounds/buy.wav"></source></audio>
+        <audio><source src="static_assets/sounds/badSell.wav"></source></audio>
+        <audio><source src="static_assets/sounds/okSell.wav"></source></audio>
+        <audio><source src="static_assets/sounds/goodSell.wav"></source></audio>
         <GameHud id="game-hud" figures={figures} buy={this.flagBuy} sell={this.flagSell}/>
         {this.state.company ? <h1 id="graph-title">{title}</h1> : null}
         {this.state.yearRange ? <h2 id="graph-title-years">{this.state.yearRange}</h2> : null}

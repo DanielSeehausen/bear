@@ -23,6 +23,7 @@ export default class MainMenu extends Component {
     this.jeffAudio = document.getElementsByTagName("audio")[0]
     this.brazilAudio = document.getElementsByTagName("audio")[1]
     this.jeffAudio.volume = 0
+    this.brazilAudio.volume = 0
   }
 
   toggleActive() {
@@ -32,6 +33,7 @@ export default class MainMenu extends Component {
   }
 
   fade(direction, clip) {
+    debugger
     const src = clip === "j" ? this.jeffAudio : this.brazilAudio
     if (direction === "in") {
       clearInterval(fadeOut)
