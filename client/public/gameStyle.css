@@ -56,8 +56,8 @@
 
 #graph-rules {
   position: absolute;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   top: 140px;
   left: 300px;
   color: #BBBBBB;

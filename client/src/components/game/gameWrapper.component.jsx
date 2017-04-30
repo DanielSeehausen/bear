@@ -29,6 +29,7 @@ const defState = {
   transactionLines: [],
   allIn: false,
   lastInvestment: 0,
+  rules: "",
 }
 
 export default class GameWrapper extends Component {
@@ -55,7 +56,7 @@ export default class GameWrapper extends Component {
       transactionLines: [],
       allIn: false,
       lastInvestment: 0,
-      rules: "Play Fair",
+      rules: "",
     }
     this.allStockData = seededStocks
     this.mountRandomStock = this.mountRandomStock.bind(this)
@@ -71,6 +72,8 @@ export default class GameWrapper extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.tick = this.tick.bind(this)
     this.playAppropriateSellSound = this.playAppropriateSellSound.bind(this)
+    // this.showAppropriateSellColor = this.showAppropriateSellColor.bind(this)
+    this.rules
   }
 
   mountRandomStock(stock) {
@@ -87,6 +90,7 @@ export default class GameWrapper extends Component {
       data: randomStockData,
       sharePrice: randomStockData[0].pv,
       stage: "pregame",
+      rules: "Rules: A company's stock data has been randomly selected for the past 3 years. Based on your predictions, select buy or sell on the left side panel based on what you think the market will do. A vertical green line will appear when you buy and a red vertical line with appear when you sell.",
       company: stock.company_name,
       ticker: stock.ticker,
       yearRange: yearRange,
@@ -110,6 +114,7 @@ export default class GameWrapper extends Component {
       netWorth: randomStock.game_round_config.starting_capital,
       change: 0,
       shareCount: 0,
+      rules: null,
     })
     this.mountRandomStock(randomStock)
   }
@@ -136,15 +141,21 @@ export default class GameWrapper extends Component {
     this.okSellAudio = audioElements[2]
     this.goodSellAudio = audioElements[3]
     this.buyAudio.volume = this.badSellAudio.volume = this.okSellAudio.volume = this.goodSellAudio.volume = .8
+
+    // let colorElements = document.getElementByTagName("figure-box")
+    // this.badSellColor = colorElements[]
+    // this.goodSellColor = colorElements[]
+    // this.badBuyColor = colorElements[]
+    // this.goodBuyColor = colorElements[]
   }
 
   startGame() {
-
     console.log("Starting")
     //start game with first shareprice to ensure they cant trade on null
     if (this.state.stage === "Game Ended") this.restart()
     this.setState({
       stage: "active",
+      rules: null,
       currIdx: 0,
     })
     let self = this
@@ -167,10 +178,14 @@ export default class GameWrapper extends Component {
   }
 
   playAppropriateSellSound(sentiment) {
-    // This little diddy below goes out to stephen because he <3s chaining ternaries
     let x = (sentiment < .9) ? this.badSellAudio : (sentiment < 1.1) ? this.okSellAudio : this.goodSellAudio
     x.play()
   }
+
+  // showAppropriateSellColor(sentiment) {
+  //   let sentimentColor = (sentiment < .9) ? this.badSellColor : (sentiment < 1.1) ? this.okSellColor : this.goodSellColor
+  //   x.color()
+  // }
 
   appraise(lastVal, nextVal) {
     let newEquity = this.state.shareCount*lastVal
@@ -204,6 +219,7 @@ export default class GameWrapper extends Component {
     let profit = Math.ceil(this.state.shareCount * sharePrice)
 
     this.playAppropriateSellSound(profit/this.state.lastInvestment)
+    this.positiveSellColor((profit/this.state.lastInvestment)
     this.setState({
       cash: this.state.cash + profit,
       shareCount: 0,
@@ -263,7 +279,6 @@ export default class GameWrapper extends Component {
   render() {
     let figures = Object.assign({}, this.state)
     const title = `${this.state.ticker}: ${this.state.company}`
-    const rules = "Here's how you play"
     return (
       <div id="game-wrapper" onKeyPress={this.handleKeyPress} >
         <audio><source src="static_assets/sounds/buy.wav"></source></audio>
@@ -273,7 +288,6 @@ export default class GameWrapper extends Component {
         <GameHud id="game-hud" figures={figures} buy={this.flagBuy} sell={this.flagSell}/>
         {this.state.company ? <h1 id="graph-title">{title}</h1> : null}
         {this.state.yearRange ? <h2 id="graph-title-years">{this.state.yearRange}</h2> : null}
-        {this.state.rules ? <h2 id="graph-rules">{this.state.rules}</h2> : null}
         <div id="game-graph-wrapper">
           {(this.state.stage === "active" || this.state.stage === "Game Ended") ?
               <GameGraph data={this.state.data.slice(0, this.state.currIdx)}
@@ -282,7 +296,7 @@ export default class GameWrapper extends Component {
                          range={this.state.sharePriceMax - this.state.sharePriceMin}
                          buyLine={this.state.buyLine}
                          transactionLines={this.state.transactionLines} /> : null}
-          {(this.state.stage === "pregame") ? <GameButton name="Start Game" handleClick={this.startGame} /> : null }
+          {(this.state.stage === "pregame") ? <GameButton name="Start Game" handleClick={this.startGame}/> : null }
           {(this.state.stage === "Game Ended") ? <GameButton name="Start New Game" handleClick={this.startGame} /> : null }
         </div>
       </div>

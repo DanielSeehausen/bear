@@ -1,9 +1,6 @@
 class SessionsController < ApplicationController
-<<<<<<< Updated upstream
-=======
   # skip_before_action :authenticate
 
->>>>>>> Stashed changes
   def new
     @user = User.new
   end

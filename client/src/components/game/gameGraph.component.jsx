@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AreaChart, XAxis, YAxis, Tooltip, Area, CartesianGrid, ReferenceLine } from 'recharts'
+import { AreaChart, XAxis, YAxis, Tooltip, Area, CartesianGrid, ReferenceLine, Legend } from 'recharts'
 
 export default class GameGraph extends Component {
   constructor() {
@@ -19,6 +19,7 @@ export default class GameGraph extends Component {
           </defs>
           <XAxis dataKey="date" interval={90} />
           <YAxis domain={[this.props.sharePriceMin - this.props.range*10, this.props.sharePriceMax + this.props.range*10]}/>
+          <Legend />
           <Tooltip />
           {this.props.buyLine}
           {this.props.transactionLines}
