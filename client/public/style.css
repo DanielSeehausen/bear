@@ -28,7 +28,6 @@ ul {
   transition: opacity .25s linear;
 }
 
-/* TODO: while this works, it is also overriding the 250ms splash screen fade out plan. Make separate keyframe animation for on hover for the bio-img elements.*/
 .slow-fadeable {
   transition: opacity .75s ease-in-out;
 }
@@ -51,9 +50,7 @@ ul {
   pointer-events: none;
 }
 
-.splash-main-window {
-
-}
+.splash-main-window {}
 
 #exit-img-button {
   margin: 10px 10px;
@@ -135,11 +132,9 @@ ul {
   padding: 15px;
 }
 
-
 .partial-fade {
   position: absolute;
   opacity: .75;
-
 }
 
 .passive-img {

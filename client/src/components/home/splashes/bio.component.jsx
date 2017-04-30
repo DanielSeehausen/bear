@@ -7,7 +7,6 @@ export default class Bio extends Component {
     super()
   }
 
-  //TODO: on hover mini splashes for each bio populates and they should be components of their own
   render() {
     console.log(this.props.lastActive)
     return (

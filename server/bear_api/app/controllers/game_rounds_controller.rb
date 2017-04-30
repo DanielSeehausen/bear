@@ -56,6 +56,7 @@ class GameRoundsController < ApplicationController
   def serve_game_data
     params[:ticker] == "DEFAULT" ? serve_default_game_data : serve_single_stock_data(params[:ticker])
   end
+  
   # protected
   #
   # def authenticate

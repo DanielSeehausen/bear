@@ -5,8 +5,13 @@ import Bio from './bio.component.jsx'
 
 const profiles = {
   def: {
+<<<<<<< Updated upstream
     title: "Bear",
     text: "Bear aims to give the feeling of riding the highs and lows of the stock market by allowing users to buy and sell as stock history renders over time. Built with React, Rails, and love.",
+=======
+    title: "",
+    text: "At memory limit so no scription",
+>>>>>>> Stashed changes
     github: false,
     linkedin: false,
     lastActive: "def"

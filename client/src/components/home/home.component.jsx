@@ -61,7 +61,6 @@ export default class Home extends Component {
         animations.fadeOut(this.domAboutSplash)
         newState.aboutSplashActive = newState.howToSplashActive = false
         break
-
     }
     newState[view] = true
     this.setState({
@@ -69,7 +68,6 @@ export default class Home extends Component {
     })
   }
 
-  //TODO can clean these up with a bind argument as well?
   toggleMainMenu() {
     this.toggleView("mainMenuActive")
   }
@@ -82,7 +80,6 @@ export default class Home extends Component {
     this.state.aboutSplashActive ? this.toggleView("mainMenuActive") : this.toggleView("aboutSplashActive")
   }
 
-  //TODO these splashes can be combined into one type of component
   render() {
     const togglers = {startGame:   this.startGame,
                       howToSplash: this.toggleHowToSplash,

@@ -26,6 +26,33 @@ export default class MainMenu extends Component {
     })
   }
 
+<<<<<<< Updated upstream
+=======
+  fade(direction, clip) {
+    const src = clip === "j" ? this.jeffAudio : this.brazilAudio
+    if (direction === "in") {
+      clearInterval(fadeOut)
+      src.play()
+      var fadeIn = setInterval(() => {
+        if (src.volume > 0.75)
+          clearInterval(fadeIn)
+        if (src.volume <= 0.75)
+          src.volume += 0.01
+      }, 10)
+    } else if (direction === "out") {
+      clearInterval(fadeIn)
+      var fadeOut = setInterval(() => {
+        if (src.volume > 0.01)
+          src.volume -= 0.01
+        if (src.volume <= 0.01) {
+          clearInterval(fadeOut)
+          src.pause()
+        }
+      }, 10)
+    }
+  }
+
+>>>>>>> Stashed changes
   render() {
     return (
       <div id="main-menu" className="fadeable">

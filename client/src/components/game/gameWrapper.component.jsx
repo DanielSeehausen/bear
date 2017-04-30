@@ -8,6 +8,32 @@ import { dateMagic, roundMagic } from '../helpers/formatHelpers.js'
 import { ReferenceLine } from 'recharts'
 import { seededStocks } from './stockSeedData.js'
 
+<<<<<<< Updated upstream
+=======
+const defState = {
+  stage: "loading",
+  startingCapital: null,
+  cash: null,
+  equity: null,
+  netWorth: null,
+  change: null,
+  shareCount: null,
+  sharePrice: null,
+  action: null,
+  data: null,
+  company: null,
+  ticker: null,
+  yearRange: null,
+  sharePriceMin: Infinity,
+  sharePriceMax: Number.NEGATIVE_INFINITY,
+  currIdx: null,
+  buyLine: null,
+  transactionLines: [],
+  allIn: false,
+  lastInvestment: 0,
+}
+
+>>>>>>> Stashed changes
 export default class GameWrapper extends Component {
   constructor() {
     super()
@@ -120,8 +146,7 @@ export default class GameWrapper extends Component {
         let nextVal = self.state.data[self.state.currIdx].sharePrice
         self.tick(nextVal)
       }
-    }, 10)
-
+    }, 20)
   }
 
   endGame() {
@@ -175,7 +200,6 @@ export default class GameWrapper extends Component {
     this.appraise(lastVal, nextVal)
   }
 
-  //TODO can combine into a trade(action) function and pass one
   flagBuy() {
     if (this.state.stage !== "active") return
     let newLines = this.state.transactionLines
@@ -199,13 +223,13 @@ export default class GameWrapper extends Component {
   }
 
   handleKeyDown(e) {
+    // refactoring needed?
     if (this.state.stage === "active") {
       if (e.key === 'p' || e.keyCode === 80) {
         this.flagBuy()
       } else if (e.key === 'l' || e.keyCode === 76) {
         this.flagSell()
       } else if (e.key === 'escape' || e.keyCode === 27) {
-        // TODO: implement early end game
       }
     }
     if ((this.state.stage === "pregame" || this.state.stage === "Game Ended") && (e.key === 'spacebar' || e.keyCode === 32))

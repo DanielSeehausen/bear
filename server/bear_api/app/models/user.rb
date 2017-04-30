@@ -12,6 +12,7 @@ class User < ApplicationRecord
     self.games_played += 1
     self.save
   end
+
   # def self.from_token(token)
   #   user_id = Auth.decode(token)["user_id"]
   #   User.find(user_id)
