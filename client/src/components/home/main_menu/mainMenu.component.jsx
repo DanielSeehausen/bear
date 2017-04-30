@@ -13,11 +13,17 @@ export default class MainMenu extends Component {
       howToSplashActive: false,
       aboutSplashActive: false,
     }
+    this.audio = document.getElementsByTagName("audio")[0]
+    this.fade = this.fade.bind(this)
   }
 
-  onComponentDidMount() {
+  componentDidMount() {
     // in another project Jquery was behaving differently when used in a similar manner so am using vanilla JS for now
     this.domSelf = document.getElementById("main-menu")
+    this.jeffAudio = document.getElementsByTagName("audio")[0]
+    this.brazilAudio = document.getElementsByTagName("audio")[1]
+    this.jeffAudio.volume = 0
+    this.brazilAudio.volume = 0
   }
 
   toggleActive() {
@@ -26,8 +32,6 @@ export default class MainMenu extends Component {
     })
   }
 
-<<<<<<< Updated upstream
-=======
   fade(direction, clip) {
     const src = clip === "j" ? this.jeffAudio : this.brazilAudio
     if (direction === "in") {
@@ -52,13 +56,16 @@ export default class MainMenu extends Component {
     }
   }
 
->>>>>>> Stashed changes
   render() {
     return (
       <div id="main-menu" className="fadeable">
+        <audio><source src="static_assets/sounds/hahahrawrrahaha.mp3"></source></audio>
+        <audio><source src="static_assets/sounds/brazil.mp3"></source></audio>
+        <div onMouseEnter={this.fade.bind(this, "in", "j")} onMouseLeave={this.fade.bind(this, "out", "j")}>
+          <ImgButton name="about" imgSrc="static_assets/images/jeffe.png" toggler={this.props.togglers.aboutSplash} />
+        </div>
         <ul>
-          <li><ImgButton name="about" imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.aboutSplash} /></li>
-          <li>
+          <li onMouseEnter={this.fade.bind(this, "in", "b")} onMouseLeave={this.fade.bind(this, "out", "b")}>
             <Link to="/game">
               <ImgButton name="game" imgSrc="static_assets/images/bear.png" toggler={this.props.togglers.startGame} />
             </Link>

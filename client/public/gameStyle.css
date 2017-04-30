@@ -9,7 +9,7 @@
   align-items: center;
   min-width: 1000px;
   min-height: 750px;
-  background: #222222;
+  background: #1a222a;
   color: #DDDDDD
 }
 
@@ -54,13 +54,23 @@
   text-shadow: 1px 3px 3px #36454f, 0 0 0 #000, 1px 3px 3px #36454f;
 }
 
+#graph-rules {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top: 140px;
+  left: 300px;
+  color: #BBBBBB;
+  text-shadow: 1px 3px 3px #36454f, 0 0 0 #000, 1px 3px 3px #36454f;
+}
+
 .game-button {
   border-radius: 15px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aqua;
+  background-color: #4DC4BF;
   margin: 30px;
   width: 80%;
   height: 100px;
@@ -76,6 +86,7 @@
   height: 100%;
   opacity: 0;
   border-radius: 15px;
+  background-color: #4DC4BF;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   transition: opacity 0.2s ease-in-out;
 }
@@ -124,7 +135,7 @@
   width: 80%;
   height: 50px;
   min-height: 30px;
-  background-color: #eee;
+  background-color: #B8C6BE;
   box-shadow: 0 2px 3px rgba(0,0,0,0.15);
   transition: all 1s ease-in-out;
   display: flex;
@@ -134,7 +145,7 @@
 }
 
 .figure-box:hover {
-  background-color: #FFFFBB;
+  background-color: #6A7F7A;
 }
 
 .figure-wrapper h2 {
