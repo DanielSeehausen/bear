@@ -219,13 +219,13 @@ export default class GameWrapper extends Component {
     let profit = Math.ceil(this.state.shareCount * sharePrice)
 
     this.playAppropriateSellSound(profit/this.state.lastInvestment)
-    this.positiveSellColor((profit/this.state.lastInvestment)
+    this.positiveSellColor(profit/this.state.lastInvestment)
     this.setState({
       cash: this.state.cash + profit,
       shareCount: 0,
       equity: 0,
       allIn: false,
-      lastInvestment: 0,
+      lastInvestment: 0
     })
   }
 
