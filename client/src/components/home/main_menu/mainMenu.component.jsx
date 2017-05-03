@@ -33,7 +33,6 @@ export default class MainMenu extends Component {
   }
 
   fade(direction, clip) {
-    debugger
     const src = clip === "j" ? this.jeffAudio : this.brazilAudio
     if (direction === "in") {
       clearInterval(fadeOut)
