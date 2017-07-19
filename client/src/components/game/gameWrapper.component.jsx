@@ -29,8 +29,8 @@ const defState = {
   transactionLines: [],
   allIn: false,
   lastInvestment: 0,
+  rules: "",
 }
-
 
 export default class GameWrapper extends Component {
   constructor() {
@@ -56,6 +56,7 @@ export default class GameWrapper extends Component {
       transactionLines: [],
       allIn: false,
       lastInvestment: 0,
+      rules: "",
     }
     this.allStockData = seededStocks
     this.mountRandomStock = this.mountRandomStock.bind(this)
@@ -71,6 +72,7 @@ export default class GameWrapper extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.tick = this.tick.bind(this)
     this.playAppropriateSellSound = this.playAppropriateSellSound.bind(this)
+    this.rules
   }
 
   mountRandomStock(stock) {
@@ -87,6 +89,7 @@ export default class GameWrapper extends Component {
       data: randomStockData,
       sharePrice: randomStockData[0].pv,
       stage: "pregame",
+      rules: "Rules: A company's stock data has been randomly selected for the past 3 years. Based on your predictions, select buy or sell on the left side panel based on what you think the market will do. A vertical green line will appear when you buy and a red vertical line with appear when you sell.",
       company: stock.company_name,
       ticker: stock.ticker,
       yearRange: yearRange,
@@ -109,7 +112,8 @@ export default class GameWrapper extends Component {
       equity: 0,
       netWorth: randomStock.game_round_config.starting_capital,
       change: 0,
-      shareCount: 0
+      shareCount: 0,
+      rules: null,
     })
     this.mountRandomStock(randomStock)
   }
@@ -121,6 +125,10 @@ export default class GameWrapper extends Component {
   }
 
   componentWillMount() {
+    // $.getJSON("http://localhost:3000/game_rounds/DEFAULT").then((msg) => {
+    //   this.allStockData = msg.msg_data
+    //   this.assignRandomStock()
+    // }, (err) => console.error(err, "UNABLE TO FETCH DEFAULT GAME DATA FROM API!"))
     this.assignRandomStock()
   }
 
@@ -140,6 +148,7 @@ export default class GameWrapper extends Component {
     if (this.state.stage === "Game Ended") this.restart()
     this.setState({
       stage: "active",
+      rules: null,
       currIdx: 0,
     })
     let self = this
@@ -151,8 +160,7 @@ export default class GameWrapper extends Component {
         let nextVal = self.state.data[self.state.currIdx].sharePrice
         self.tick(nextVal)
       }
-    }, 10)
-
+    }, 20)
   }
 
   endGame() {
@@ -163,7 +171,6 @@ export default class GameWrapper extends Component {
   }
 
   playAppropriateSellSound(sentiment) {
-    // This little diddy below goes out to stephen because he <3s chaining ternaries
     let x = (sentiment < .9) ? this.badSellAudio : (sentiment < 1.1) ? this.okSellAudio : this.goodSellAudio
     x.play()
   }
@@ -180,7 +187,6 @@ export default class GameWrapper extends Component {
       netWorth: newNW,
       equity: newEquity,
     })
-
   }
 
   buy(sharePrice) {
@@ -220,7 +226,6 @@ export default class GameWrapper extends Component {
     this.appraise(lastVal, nextVal)
   }
 
-  //TODO can combine into a trade(action) function and pass one
   flagBuy() {
     if (this.state.stage !== "active" || this.state.allIn) return
     let newLines = this.state.transactionLines
@@ -250,8 +255,8 @@ export default class GameWrapper extends Component {
         this.flagBuy()
       } else if (e.key === 'l' || e.keyCode === 76) {
         this.flagSell()
-      } else if (e.key === 'escape' || e.keyCode === 27) {
-        // TODO: implement early end game
+      } else {
+        (e.key === 'escape' || e.keyCode === 27)
       }
     }
     if ((this.state.stage === "pregame" || this.state.stage === "Game Ended") && (e.key === 'spacebar' || e.keyCode === 32))
@@ -278,7 +283,7 @@ export default class GameWrapper extends Component {
                          range={this.state.sharePriceMax - this.state.sharePriceMin}
                          buyLine={this.state.buyLine}
                          transactionLines={this.state.transactionLines} /> : null}
-          {(this.state.stage === "pregame") ? <GameButton name="Start Game" handleClick={this.startGame} /> : null }
+          {(this.state.stage === "pregame") ? <GameButton name="Start Game" handleClick={this.startGame}/> : null }
           {(this.state.stage === "Game Ended") ? <GameButton name="Start New Game" handleClick={this.startGame} /> : null }
         </div>
       </div>

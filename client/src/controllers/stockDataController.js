@@ -7,7 +7,6 @@ export const stockDataController = {
   },
   setStockData: (stock) => {
     // gameData.stocks.push(stock)
-    // TODO move to store?
     localStorage.setItem(stock.company_name, stock)
   },
 }

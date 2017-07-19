@@ -2,17 +2,17 @@ require 'securerandom'
 class User < ApplicationRecord
   has_many :user_games
   has_many :game_rounds, through: :user_games
+  validates :username, presence: true
 
   # has_secure_password
-  #
   # before_create :set_auth_token
-  validates :username, presence: true
 
   def update_score(score)
     self.cumulative_performance += score.to_f
     self.games_played += 1
     self.save
   end
+
   # def self.from_token(token)
   #   user_id = Auth.decode(token)["user_id"]
   #   User.find(user_id)

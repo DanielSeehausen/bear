@@ -14,7 +14,7 @@ export default class GameHud extends Component {
   render() {
     return (
       <div id="game-hud">
-        <Link id="bullshit-link" to="/home">
+        <Link id="random-link" to="/home">
           <GameButton name="Back" stage={this.props.figures.stage}/>
         </Link>
         <GameButton name="Buy" handleClick={this.props.buy} stage={this.props.figures.stage}/>
@@ -28,7 +28,3 @@ export default class GameHud extends Component {
     )
   }
 }
-
-// <Link id="urmumm8" to="/home">
-//   <GameButton name="Back" stage={this.props.figures.stage}/>
-// </Link>

@@ -62,7 +62,7 @@ export default class MainMenu extends Component {
         <audio><source src="static_assets/sounds/hahahrawrrahaha.mp3"></source></audio>
         <audio><source src="static_assets/sounds/brazil.mp3"></source></audio>
         <div onMouseEnter={this.fade.bind(this, "in", "j")} onMouseLeave={this.fade.bind(this, "out", "j")}>
-          <ImgButton name="about" imgSrc="static_assets/images/jeffe.png" toggler={this.props.togglers.aboutSplash}  />
+          <ImgButton name="about" imgSrc="static_assets/images/jeffe.png" toggler={this.props.togglers.aboutSplash} />
         </div>
         <ul>
           <li onMouseEnter={this.fade.bind(this, "in", "b")} onMouseLeave={this.fade.bind(this, "out", "b")}>
